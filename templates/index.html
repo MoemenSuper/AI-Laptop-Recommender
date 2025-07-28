@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laptop AI Recommender</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ff6b35 0%, #8b5cf6 50%, #3b82f6 100%);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 107, 53, 0.8) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.8) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(59, 130, 246, 0.7) 0%, transparent 50%),
+                radial-gradient(circle at 90% 70%, rgba(255, 107, 53, 0.6) 0%, transparent 50%),
+                radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.5) 0%, transparent 50%),
+                radial-gradient(circle at 70% 90%, rgba(59, 130, 246, 0.8) 0%, transparent 50%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        /* Floating particles */
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+        
+        .particle:nth-child(1) {
+            width: 8px;
+            height: 8px;
+            left: 10%;
+            animation-delay: 0s;
+            animation-duration: 25s;
+        }
+        
+        .particle:nth-child(2) {
+            width: 12px;
+            height: 12px;
+            left: 30%;
+            animation-delay: 2s;
+            animation-duration: 22s;
+        }
+        
+        .particle:nth-child(3) {
+            width: 6px;
+            height: 6px;
+            left: 50%;
+            animation-delay: 4s;
+            animation-duration: 28s;
+        }
+        
+        .particle:nth-child(4) {
+            width: 10px;
+            height: 10px;
+            left: 70%;
+            animation-delay: 6s;
+            animation-duration: 20s;
+        }
+        
+        .particle:nth-child(5) {
+            width: 14px;
+            height: 14px;
+            left: 85%;
+            animation-delay: 8s;
+            animation-duration: 26s;
+        }
+        
+        .particle:nth-child(6) {
+            width: 7px;
+            height: 7px;
+            left: 15%;
+            animation-delay: 10s;
+            animation-duration: 24s;
+        }
+        
+        .particle:nth-child(7) {
+            width: 9px;
+            height: 9px;
+            left: 65%;
+            animation-delay: 12s;
+            animation-duration: 27s;
+        }
+        
+        .particle:nth-child(8) {
+            width: 11px;
+            height: 11px;
+            left: 90%;
+            animation-delay: 14s;
+            animation-duration: 21s;
+        }
+        
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+                transform: scale(1) rotate(0deg);
+            }
+            25% {
+                background-position: 100% 50%;
+                transform: scale(1.1) rotate(5deg);
+            }
+            50% {
+                background-position: 100% 100%;
+                transform: scale(1) rotate(0deg);
+            }
+            75% {
+                background-position: 0% 100%;
+                transform: scale(1.05) rotate(-3deg);
+            }
+            100% {
+                background-position: 0% 50%;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0px) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #ff6b35 0%, #8b5cf6 50%, #3b82f6 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .status-indicator {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .status-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+        
+        .status-api {
+            background: #10b981;
+        }
+        
+        .status-csv {
+            background: #f59e0b;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .main-content {
+            padding: 40px;
+        }
+        
+        .recommendation-form {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .form-group select,
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: white;
+        }
+        
+        .form-group select:focus,
+        .form-group input:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+            transform: translateY(-1px);
+        }
+        
+        .form-group select:hover,
+        .form-group input:hover {
+            border-color: #c0c0c0;
+            transform: translateY(-1px);
+        }
+        
+        /* Custom dropdown animation */
+        .form-group select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="%23666" d="M2 0L0 2h4zm0 5L0 3h4z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 12px;
+            padding-right: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .form-group select::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.1), transparent);
+            transition: left 0.6s ease;
+            pointer-events: none;
+        }
+        
+        .form-group select:hover::before {
+            left: 100%;
+        }
+        
+        .form-group select:focus {
+            background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="%238b5cf6" d="M2 0L0 2h4zm0 5L0 3h4z"/></svg>');
+            animation: selectPulse 0.3s ease;
+        }
+        
+        .form-group select:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
+        }
+        
+        @keyframes selectPulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.02);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #ff6b35 0%, #8b5cf6 50%, #3b82f6 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .search-section {
+            margin-bottom: 30px;
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .search-box input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        .search-box button {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(40, 167, 69, 0.2);
+        }
+        
+        .search-box button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .search-box button:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+            background: linear-gradient(135deg, #218838 0%, #1e7e34 100%);
+        }
+        
+        .search-box button:hover::before {
+            left: 100%;
+        }
+        
+        .search-box button:active {
+            transform: translateY(0) scale(0.98);
+            transition: all 0.1s ease;
+        }
+        
+        .search-box button:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.25);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 18px;
+        }
+        
+        .results {
+            margin-top: 30px;
+        }
+        
+        .results h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        .laptop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .laptop-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        
+        .laptop-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .laptop-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .laptop-card h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        .laptop-card .brand {
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .laptop-card .price {
+            color: #28a745;
+            font-size: 1.3em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .laptop-card .specs {
+            color: #666;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+        
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #f5c6cb;
+        }
+        
+        /* Chatbot Styles */
+        .chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1000;
+            transform: scale(0.8) translateY(20px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        .chatbot-container.show {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+        
+        .chatbot-header {
+            background: linear-gradient(135deg, #ff6b35 0%, #8b5cf6 50%, #3b82f6 100%);
+            color: white;
+            padding: 15px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chatbot-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 0;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .chatbot-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .message {
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 15px;
+            word-wrap: break-word;
+            line-height: 1.4;
+            animation: messageSlideIn 0.3s ease-out;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+        
+        @keyframes messageSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .message.user {
+            background: linear-gradient(135deg, #ff6b35 0%, #8b5cf6 100%);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .message.bot {
+            background: #f0f0f0;
+            color: #333;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .chatbot-input {
+            padding: 15px;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .chatbot-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 20px;
+            outline: none;
+        }
+        
+        .chatbot-input button {
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .chatbot-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 999;
+            animation: chatbotPulse 2s infinite;
+        }
+        
+        .chatbot-toggle:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .chatbot-toggle:active {
+            transform: scale(0.95) rotate(-5deg);
+        }
+        
+        @keyframes chatbotPulse {
+            0% {
+                box-shadow: 0 5px 15px rgba(0,0,0,0.3), 0 0 0 0 rgba(102, 126, 234, 0.7);
+            }
+            70% {
+                box-shadow: 0 5px 15px rgba(0,0,0,0.3), 0 0 0 10px rgba(102, 126, 234, 0);
+            }
+            100% {
+                box-shadow: 0 5px 15px rgba(0,0,0,0.3), 0 0 0 0 rgba(102, 126, 234, 0);
+            }
+        }
+        
+        .typing-indicator {
+            display: none;
+            align-self: flex-start;
+            padding: 10px 15px;
+            background: #f0f0f0;
+            border-radius: 15px;
+            border-bottom-left-radius: 5px;
+            max-width: 80px;
+        }
+        
+        .typing-dots {
+            display: flex;
+            gap: 3px;
+        }
+        
+        .typing-dots span {
+            width: 6px;
+            height: 6px;
+            background: #999;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+        
+        .typing-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .typing-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        /* Typewriter effect for AI responses */
+        .typewriter {
+            overflow: hidden;
+            border-right: 2px solid #666;
+            white-space: nowrap;
+            animation: typewriter 2s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+        
+        @keyframes typewriter {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+        
+        @keyframes blink-caret {
+            from, to {
+                border-color: transparent;
+            }
+            50% {
+                border-color: #666;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Particles -->
+    <div class="floating-particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+    
+    <div class="container">
+        <div class="header">
+            <div class="status-indicator" id="statusIndicator">
+                <span class="status-dot status-api" id="statusDot"></span>
+                <span id="statusText">API Mode</span>
+            </div>
+            <h1>🖥️ Laptop AI Recommender</h1>
+            <p>Find your perfect laptop with AI-powered recommendations</p>
+        </div>
+        
+        <div class="main-content">
+            <!-- Recommendation Form -->
+            <div class="recommendation-form">
+                <h2>Get AI Recommendations</h2>
+                <form id="recommendForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="usage">Primary Usage:</label>
+                            <select id="usage" name="usage">
+                                <option value="general">General Use</option>
+                                <option value="gaming">Gaming</option>
+                                <option value="business">Business/Work</option>
+                                <option value="student">Student</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="budget">Budget (USD):</label>
+                            <input type="number" id="budget" name="budget" placeholder="e.g., 1000" min="0">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="brand">Preferred Brand (optional):</label>
+                        <select id="brand" name="brand">
+                            <option value="">Any Brand</option>
+                            <option value="Acer">Acer</option>
+                            <option value="Alienware">Alienware</option>
+                            <option value="Apple">Apple</option>
+                            <option value="ASUS">ASUS</option>
+                            <option value="Dell">Dell</option>
+                            <option value="Framework">Framework</option>
+                            <option value="Google">Google</option>
+                            <option value="HP">HP</option>
+                            <option value="Lenovo">Lenovo</option>
+                            <option value="LG">LG</option>
+                            <option value="Microsoft">Microsoft</option>
+                            <option value="MSI">MSI</option>
+                            <option value="Razer">Razer</option>
+                            <option value="Samsung">Samsung</option>
+                            <option value="System76">System76</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn">Get AI Recommendations</button>
+                </form>
+            </div>
+            
+            <!-- Search Section -->
+            <div class="search-section">
+                <h2>Search Laptops</h2>
+                <div class="search-box">
+                    <input type="text" id="searchQuery" placeholder="Search for specific laptop models...">
+                    <button onclick="searchLaptops()">Search</button>
+                </div>
+            </div>
+            
+            <!-- Loading -->
+            <div id="loading" class="loading" style="display: none;">
+                <p>🔍 Searching for the best laptops for you...</p>
+            </div>
+            
+            <!-- Results -->
+            <div id="results" class="results" style="display: none;">
+                <h2 id="resultsTitle">Recommendations</h2>
+                <div id="laptopGrid" class="laptop-grid"></div>
+            </div>
+            
+            <!-- Error -->
+            <div id="error" class="error" style="display: none;"></div>
+        </div>
+    </div>
+    
+    <!-- Chatbot Toggle Button -->
+    <button class="chatbot-toggle" onclick="toggleChatbot()" id="chatbotToggle">
+        💬
+    </button>
+    
+    <!-- Chatbot Container -->
+    <div class="chatbot-container" id="chatbotContainer">
+        <div class="chatbot-header">
+            <span>🤖 Laptop Assistant</span>
+            <button class="chatbot-close" onclick="toggleChatbot()">
+                ×
+            </button>
+        </div>
+        <div class="chatbot-messages" id="chatbotMessages">
+            <div class="message bot">
+                Hi! I'm your laptop recommendation assistant. I can help you find the perfect laptop based on your needs. What are you looking for?
+            </div>
+        </div>
+        <div class="typing-indicator" id="typingIndicator">
+            <div class="typing-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" placeholder="Ask me about laptops..." id="chatbotInput" onkeypress="handleChatKeyPress(event)">
+            <button onclick="sendMessage()">➤</button>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('recommendForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            getRecommendations();
+        });
+        
+        async function getRecommendations() {
+            const formData = new FormData(document.getElementById('recommendForm'));
+            const data = {
+                usage: formData.get('usage'),
+                budget: formData.get('budget'),
+                brand: formData.get('brand')
+            };
+            
+            showLoading();
+            
+            try {
+                const response = await fetch('/recommend', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    displayResults(result.recommendations, 'AI Recommendations');
+                } else {
+                    showError(result.error || 'Failed to get recommendations');
+                }
+            } catch (error) {
+                showError('Network error. Please try again.');
+            }
+        }
+        
+        async function searchLaptops() {
+            const query = document.getElementById('searchQuery').value.trim();
+            if (!query) {
+                showError('Please enter a search query');
+                return;
+            }
+            
+            showLoading();
+            
+            try {
+                const response = await fetch('/search', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ query: query })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    displayResults(result.results, 'Search Results');
+                } else {
+                    showError(result.error || 'Search failed');
+                }
+            } catch (error) {
+                showError('Network error. Please try again.');
+            }
+        }
+        
+        function displayResults(laptops, title) {
+            hideLoading();
+            hideError();
+            
+            document.getElementById('resultsTitle').textContent = title;
+            const grid = document.getElementById('laptopGrid');
+            
+            if (laptops.length === 0) {
+                grid.innerHTML = '<p>No laptops found. Try different search criteria.</p>';
+            } else {
+                grid.innerHTML = laptops.map(laptop => createLaptopCard(laptop)).join('');
+            }
+            
+            document.getElementById('results').style.display = 'block';
+        }
+        
+        function createLaptopCard(laptop) {
+            const specs = laptop.specifications || {};
+            const processor = specs.Processor || {};
+            const memory = specs.Memory || {};
+            const graphics = specs.Graphics || {};
+            
+            // Check if this is CSV data (has structured specs) or API data
+            const hasStructuredSpecs = specs.cpu || specs.ram || specs.gpu || specs.price;
+            
+            return `
+                <div class="laptop-card">
+                    ${laptop.image && laptop.image !== 'Please upgrade your plan to get access to product images' ? `<img src="${laptop.image}" alt="${laptop.model}" onerror="this.style.display='none'">` : ''}
+                    <div class="brand">${laptop.brand || 'Unknown Brand'}</div>
+                    <h3>${laptop.model || 'Unknown Model'}</h3>
+                    ${laptop.version ? `<p class="version"><strong>Version:</strong> ${laptop.version}</p>` : ''}
+                    ${specs.price ? `<div class="price">${specs.price}</div>` : (laptop.price ? `<div class="price">$${laptop.price}</div>` : '')}
+                    <div class="specs">
+                        ${laptop.category ? `<p><strong>Category:</strong> ${laptop.category}</p>` : ''}
+                        
+                        ${hasStructuredSpecs ? `
+                            ${specs.screen_size && specs.screen_size !== 'N/A' ? `<p><strong>Screen:</strong> ${specs.screen_size}" ${specs.resolution || ''}</p>` : ''}
+                            ${specs.cpu && specs.cpu !== 'N/A' ? `<p><strong>CPU:</strong> ${specs.cpu}</p>` : ''}
+                            ${specs.ram && specs.ram !== 'N/A' ? `<p><strong>RAM:</strong> ${specs.ram}</p>` : ''}
+                            ${specs.storage && specs.storage !== 'N/A' ? `<p><strong>Storage:</strong> ${specs.storage}</p>` : ''}
+                            ${specs.gpu && specs.gpu !== 'N/A' ? `<p><strong>GPU:</strong> ${specs.gpu}</p>` : ''}
+                            ${specs.os && specs.os !== 'N/A' ? `<p><strong>OS:</strong> ${specs.os}</p>` : ''}
+                            ${specs.weight && specs.weight !== 'N/A' ? `<p><strong>Weight:</strong> ${specs.weight}</p>` : ''}
+                        ` : `
+                            ${Object.keys(processor).length > 0 ? `<p><strong>Processor:</strong> ${Object.values(processor).join(', ')}</p>` : ''}
+                            ${Object.keys(memory).length > 0 ? `<p><strong>Memory:</strong> ${Object.values(memory).join(', ')}</p>` : ''}
+                            ${Object.keys(graphics).length > 0 ? `<p><strong>Graphics:</strong> ${Object.values(graphics).join(', ')}</p>` : ''}
+                            ${!Object.keys(processor).length && !Object.keys(memory).length && !Object.keys(graphics).length && !hasStructuredSpecs ? '<p><em>Detailed specifications not available with current API plan</em></p>' : ''}
+                        `}
+                    </div>
+                </div>
+            `;
+        }
+        
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('results').style.display = 'none';
+            document.getElementById('error').style.display = 'none';
+        }
+        
+        function hideLoading() {
+            document.getElementById('loading').style.display = 'none';
+        }
+        
+        function showError(message) {
+            hideLoading();
+            document.getElementById('error').textContent = message;
+            document.getElementById('error').style.display = 'block';
+            document.getElementById('results').style.display = 'none';
+        }
+        
+        function hideError() {
+            document.getElementById('error').style.display = 'none';
+        }
+        
+        // Allow Enter key to search
+        document.getElementById('searchQuery').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchLaptops();
+            }
+        });
+        
+        // Chatbot Functions
+        function toggleChatbot() {
+            const container = document.getElementById('chatbotContainer');
+            const toggle = document.getElementById('chatbotToggle');
+            
+            if (container.style.display === 'none' || container.style.display === '') {
+                // Show chatbot with animation
+                container.style.display = 'flex';
+                setTimeout(() => {
+                    container.classList.add('show');
+                }, 10);
+                
+                // Hide toggle with animation
+                toggle.style.transform = 'scale(0) rotate(180deg)';
+                setTimeout(() => {
+                    toggle.style.display = 'none';
+                }, 300);
+            } else {
+                // Hide chatbot with animation
+                container.classList.remove('show');
+                setTimeout(() => {
+                    container.style.display = 'none';
+                }, 300);
+                
+                // Show toggle with animation
+                toggle.style.display = 'block';
+                setTimeout(() => {
+                    toggle.style.transform = 'scale(1) rotate(0deg)';
+                }, 10);
+            }
+        }
+        
+        function handleChatKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+        
+        async function sendMessage() {
+            const input = document.getElementById('chatbotInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Add user message to chat
+            addMessage(message, 'user');
+            input.value = '';
+            
+            // Show typing indicator
+            showTyping();
+            
+            try {
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: message })
+                });
+                
+                const result = await response.json();
+                
+                // Hide typing indicator
+                hideTyping();
+                
+                if (result.success) {
+                    addMessage(result.response, 'bot');
+                } else {
+                    addMessage(result.error || 'Sorry, I encountered an error. Please try again.', 'bot');
+                }
+            } catch (error) {
+                hideTyping();
+                addMessage('Sorry, I\'m having trouble connecting. Please try again later.', 'bot');
+            }
+        }
+        
+        function addMessage(message, type) {
+            const messagesContainer = document.getElementById('chatbotMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            
+            if (type === 'bot') {
+                // Add typewriter effect for bot messages
+                addMessageWithTypewriter(messageDiv, message, messagesContainer);
+            } else {
+                // Regular message for user
+                messageDiv.textContent = message;
+                messagesContainer.appendChild(messageDiv);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+        }
+        
+        function addMessageWithTypewriter(messageDiv, text, container) {
+            container.appendChild(messageDiv);
+            container.scrollTop = container.scrollHeight;
+            
+            // Ensure the message is visible (override the initial opacity: 0)
+            messageDiv.style.opacity = '1';
+            
+            let index = 0;
+            const speed = 30; // milliseconds per character
+            
+            function typeCharacter() {
+                if (index < text.length) {
+                    messageDiv.textContent = text.slice(0, index + 1);
+                    index++;
+                    setTimeout(typeCharacter, speed);
+                } else {
+                    // Remove any typewriter cursor effect
+                    messageDiv.style.borderRight = 'none';
+                }
+                container.scrollTop = container.scrollHeight;
+            }
+            
+            // Add initial cursor effect
+            messageDiv.style.borderRight = '2px solid #666';
+            
+            // Start typing after a short delay
+            setTimeout(typeCharacter, 200);
+        }
+        
+        function showTyping() {
+            const typingIndicator = document.getElementById('typingIndicator');
+            const messagesContainer = document.getElementById('chatbotMessages');
+            
+            typingIndicator.style.display = 'block';
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+        
+        function hideTyping() {
+            const typingIndicator = document.getElementById('typingIndicator');
+            typingIndicator.style.display = 'none';
+        }
+        
+        // API Status Monitoring
+        async function checkApiStatus() {
+            try {
+                const response = await fetch('/api-status');
+                const data = await response.json();
+                
+                const statusDot = document.getElementById('statusDot');
+                const statusText = document.getElementById('statusText');
+                
+                if (data.api_limit_reached) {
+                    statusDot.className = 'status-dot status-csv';
+                    statusText.textContent = `CSV Mode (${data.csv_laptop_count} laptops)`;
+                } else {
+                    statusDot.className = 'status-dot status-api';
+                    statusText.textContent = 'API Mode';
+                }
+            } catch (error) {
+                console.log('Status check failed:', error);
+            }
+        }
+        
+        // Check status every 30 seconds
+        setInterval(checkApiStatus, 30000);
+        
+        // Check status on page load
+        document.addEventListener('DOMContentLoaded', checkApiStatus);
+        
+        // Add reset API function (for testing)
+        async function resetApiLimit() {
+            try {
+                const response = await fetch('/reset-api', { method: 'POST' });
+                const result = await response.json();
+                
+                if (result.success) {
+                    console.log('API limit reset successfully');
+                    checkApiStatus(); // Update status immediately
+                }
+            } catch (error) {
+                console.log('Failed to reset API limit:', error);
+            }
+        }
+        
+        // Add click event to status indicator for manual reset (hidden feature)
+        document.getElementById('statusIndicator').addEventListener('dblclick', function() {
+            if (confirm('Reset API limit flag? (This will try API mode again)')) {
+                resetApiLimit();
+            }
+        });
+    </script>
+</body>
+</html>

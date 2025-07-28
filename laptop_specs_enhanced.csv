@@ -1,0 +1,117 @@
+Company,Product,TypeName,Inches,ScreenResolution,CPU_Company,CPU_Type,CPU_Frequency (GHz),RAM (GB),Memory,GPU_Company,GPU_Type,OpSys,Weight (kg),Price (Euro)
+Apple,MacBook Pro,Ultrabook,13.3,IPS Panel Retina Display 2560x1600,Intel,Core i5,2.3,8,128GB SSD,Intel,Iris Plus Graphics 640,macOS,1.37,1339.69
+Apple,Macbook Air,Ultrabook,13.3,1440x900,Intel,Core i5,1.8,8,128GB Flash Storage,Intel,HD Graphics 6000,macOS,1.34,898.94
+HP,250 G6,Notebook,15.6,Full HD 1920x1080,Intel,Core i5 7200U,2.5,8,256GB SSD,Intel,HD Graphics 620,No OS,1.86,575
+Apple,MacBook Pro,Ultrabook,15.4,IPS Panel Retina Display 2880x1800,Intel,Core i7,2.7,16,512GB SSD,AMD,Radeon Pro 455,macOS,1.83,2537.45
+Apple,MacBook Pro,Ultrabook,13.3,IPS Panel Retina Display 2560x1600,Intel,Core i5,3.1,8,256GB SSD,Intel,Iris Plus Graphics 650,macOS,1.37,1803.6
+Acer,Aspire 3,Notebook,15.6,1366x768,AMD,A9-Series 9420,3,4,500GB HDD,AMD,Radeon R5,Windows 10,2.1,400
+Apple,MacBook Pro,Ultrabook,15.4,IPS Panel Retina Display 2880x1800,Intel,Core i7,2.2,16,256GB Flash Storage,Intel,Iris Pro Graphics,Mac OS X,2.04,2139.97
+Apple,Macbook Air,Ultrabook,13.3,1440x900,Intel,Core i5,1.8,8,256GB Flash Storage,Intel,HD Graphics 6000,macOS,1.34,1158.7
+Asus,ZenBook UX430UN,Ultrabook,14,Full HD 1920x1080,Intel,Core i7 8550U,1.8,16,512GB SSD,Nvidia,GeForce MX150,Windows 10,1.3,1495
+Acer,Swift 3,Ultrabook,14,IPS Panel Full HD 1920x1080,Intel,Core i5 8250U,1.6,8,256GB SSD,Intel,UHD Graphics 620,Windows 10,1.6,770
+Dell,Inspiron 14 Plus,Notebook,14,2.2K 2240x1400,Intel,Core i7 13700H,3.7,16,512GB SSD,Intel,Iris Xe Graphics,Windows 11,1.66,1299
+HP,Pavilion Aero 13,Ultrabook,13.3,2.5K 2560x1600,AMD,Ryzen 7 7735U,2.7,16,512GB SSD,AMD,Radeon 680M,Windows 11,0.99,1199
+Dell,XPS 13 Plus,Ultrabook,13.4,3.5K OLED 3456x2160,Intel,Core i7 13700H,3.7,32,1TB SSD,Intel,Iris Xe Graphics,Windows 11,1.26,2399
+Apple,MacBook Air M3,Ultrabook,13.6,Liquid Retina 2560x1664,Apple,M3,3.5,16,512GB SSD,Apple,M3 10-core GPU,macOS,1.24,1699
+Apple,MacBook Pro M3,Ultrabook,14.2,Liquid Retina XDR 3024x1964,Apple,M3 Pro,4.0,18,512GB SSD,Apple,M3 Pro 18-core GPU,macOS,1.61,2399
+Lenovo,ThinkPad X1 Carbon Gen 12,Ultrabook,14,2.8K OLED 2880x1800,Intel,Core Ultra 7 155U,3.8,32,1TB SSD,Intel,Arc Graphics,Windows 11,1.09,2799
+ASUS,ZenBook 14 OLED,Ultrabook,14.5,2.8K OLED 2880x1800,Intel,Core i7 13700H,3.7,16,1TB SSD,Intel,Iris Xe Graphics,Windows 11,1.39,1599
+HP,Spectre x360 14,2 in 1 Convertible,13.5,3K2K OLED 3000x2000,Intel,Core Ultra 7 155H,3.8,32,1TB SSD,Intel,Arc Graphics,Windows 11,1.36,2199
+Dell,Alienware m18 R2,Gaming,18,QHD+ 2560x1600,Intel,Core i9 14900HX,5.8,64,2TB SSD,Nvidia,GeForce RTX 4090,Windows 11,3.64,4299
+ASUS,ROG Zephyrus G16,Gaming,16,2.5K 240Hz 2560x1600,Intel,Core Ultra 9 185H,5.1,32,1TB SSD,Nvidia,GeForce RTX 4070,Windows 11,1.85,2899
+Razer,Blade 16,Gaming,16,4K OLED 3840x2400,Intel,Core i9 14900HX,5.8,32,2TB SSD,Nvidia,GeForce RTX 4080,Windows 11,2.45,3999
+MSI,Stealth 18 AI Studio,Gaming,18,4K Mini LED 3840x2400,Intel,Core Ultra 9 185H,5.1,64,2TB SSD,Nvidia,GeForce RTX 4080,Windows 11,2.89,3599
+Acer,Predator Helios Neo 16,Gaming,16,2.5K 165Hz 2560x1600,Intel,Core i7 13700HX,5.0,32,1TB SSD,Nvidia,GeForce RTX 4060,Windows 11,2.6,1899
+Framework,Laptop 16,Notebook,16,2.5K 165Hz 2560x1600,AMD,Ryzen 7 7840HS,5.1,32,1TB SSD,AMD,Radeon 780M,Windows 11,2.4,1999
+System76,Oryx Pro,Gaming,15.6,4K 3840x2160,Intel,Core i7 13700HX,5.0,64,2TB SSD,Nvidia,GeForce RTX 4070,Pop!_OS,2.3,2799
+LG,Gram 17,Ultrabook,17,2K 2560x1600,Intel,Core i7 13700H,3.7,16,1TB SSD,Intel,Iris Xe Graphics,Windows 11,1.35,1799
+Samsung,Galaxy Book4 Ultra,Ultrabook,16,3K AMOLED 2880x1800,Intel,Core Ultra 7 155H,3.8,32,1TB SSD,Nvidia,GeForce RTX 4050,Windows 11,1.86,2199
+Lenovo,Yoga Pro 9i,2 in 1 Convertible,16,3.2K Mini LED 3200x2000,Intel,Core i9 13905H,5.4,32,1TB SSD,Nvidia,GeForce RTX 4060,Windows 11,2.29,2599
+HP,ZBook Studio 16 G10,Workstation,16,4K DreamColor 3840x2400,Intel,Core i9 13950HX,5.5,64,2TB SSD,Nvidia,RTX 5000 Ada,Windows 11 Pro,2.39,4999
+Dell,Precision 7780,Workstation,17.3,4K 3840x2160,Intel,Core i9 13950HX,5.5,128,4TB SSD,Nvidia,RTX 4000 Ada,Windows 11 Pro,3.37,5899
+Apple,MacBook Pro M3 Max,Ultrabook,16.2,Liquid Retina XDR 3456x2234,Apple,M3 Max,4.0,36,1TB SSD,Apple,M3 Max 40-core GPU,macOS,2.14,3999
+Alienware,x17 R2,Gaming,17.3,4K 120Hz 3840x2160,Intel,Core i9 13900HX,5.4,64,4TB SSD,Nvidia,GeForce RTX 4090,Windows 11,3.09,4799
+ASUS,ProArt Studiobook 16,Workstation,16,4K OLED 3840x2400,Intel,Core i9 13980HX,5.6,64,2TB SSD,Nvidia,GeForce RTX 4070,Windows 11 Pro,2.4,3599
+Lenovo,Legion Pro 7i,Gaming,16,2.5K 240Hz 2560x1600,Intel,Core i9 13900HX,5.4,32,1TB SSD,Nvidia,GeForce RTX 4080,Windows 11,2.8,3299
+HP,Omen Transcend 14,Gaming,14,2.8K OLED 2880x1800,Intel,Core Ultra 7 155H,3.8,16,1TB SSD,Nvidia,GeForce RTX 4060,Windows 11,1.63,1899
+MSI,Creator Z17 HX Studio,Workstation,17,4K Mini LED 3840x2400,Intel,Core i9 13980HX,5.6,64,2TB SSD,Nvidia,GeForce RTX 4080,Windows 11,2.49,3899
+ASUS,Vivobook Pro 16X OLED,Notebook,16,4K OLED 3840x2400,AMD,Ryzen 9 7940HS,5.2,32,1TB SSD,Nvidia,GeForce RTX 4060,Windows 11,1.9,2199
+Acer,Swift X 14,Ultrabook,14.5,2.5K OLED 2560x1600,Intel,Core Ultra 7 155H,3.8,32,1TB SSD,Nvidia,GeForce RTX 4050,Windows 11,1.55,1699
+Dell,Inspiron 16 Plus,Notebook,16,2.5K 120Hz 2560x1600,Intel,Core i7 13700H,3.7,32,1TB SSD,Nvidia,GeForce RTX 4060,Windows 11,2.05,1599
+Lenovo,IdeaPad Pro 5i,Notebook,16,2.5K 120Hz 2560x1600,Intel,Core Ultra 7 155H,3.8,32,1TB SSD,Intel,Arc Graphics,Windows 11,1.89,1299
+HP,Pavilion Plus 14,Notebook,14,2.8K OLED 2880x1800,Intel,Core Ultra 5 125H,3.6,16,512GB SSD,Intel,Arc Graphics,Windows 11,1.44,999
+ASUS,ZenBook Pro 14 OLED,Ultrabook,14.5,2.8K OLED 2880x1800,AMD,Ryzen 9 7940HS,5.2,32,1TB SSD,AMD,Radeon 780M,Windows 11,1.6,1899
+Acer,Aspire 5,Notebook,15.6,Full HD 1920x1080,Intel,Core i7 13700H,3.7,16,512GB SSD,Intel,Iris Xe Graphics,Windows 11,1.7,799
+Lenovo,ThinkBook 16 G6 IRL,Notebook,16,2.5K 2560x1600,Intel,Core i7 13700H,3.7,32,1TB SSD,Intel,Iris Xe Graphics,Windows 11,1.7,1399
+HP,EliteBook 860 G10,Notebook,16,2.5K 2560x1600,Intel,Core i7 13700U,3.5,32,1TB SSD,Intel,Iris Xe Graphics,Windows 11 Pro,1.74,2199
+Dell,Latitude 9440,Ultrabook,14,2.8K 2880x1800,Intel,Core i7 13800U,3.9,32,1TB SSD,Intel,Iris Xe Graphics,Windows 11 Pro,1.28,2599
+Framework,Laptop 13,Notebook,13.5,2.2K 2256x1504,Intel,Core i7 13700U,3.5,32,1TB SSD,Intel,Iris Xe Graphics,Windows 11,1.3,1699
+System76,Lemur Pro,Ultrabook,14.1,Full HD 1920x1080,Intel,Core i7 13700U,3.5,32,1TB SSD,Intel,Iris Xe Graphics,Pop!_OS,1.15,1399
+LG,Gram Style 14,Ultrabook,14,2.8K OLED 2880x1800,Intel,Core i7 13700H,3.7,16,512GB SSD,Intel,Iris Xe Graphics,Windows 11,0.999,1599
+Samsung,Galaxy Book4 Pro,Ultrabook,14,2.8K AMOLED 2880x1800,Intel,Core Ultra 7 155H,3.8,16,512GB SSD,Intel,Arc Graphics,Windows 11,1.21,1799
+Lenovo,Yoga 9i,2 in 1 Convertible,14,4K OLED 3840x2400,Intel,Core Ultra 7 155H,3.8,32,1TB SSD,Intel,Arc Graphics,Windows 11,1.4,2099
+HP,Envy x360 14,2 in 1 Convertible,14,2.8K OLED 2880x1800,AMD,Ryzen 7 8840HS,5.1,32,1TB SSD,AMD,Radeon 780M,Windows 11,1.39,1399
+ASUS,Zenbook 14 Flip OLED,2 in 1 Convertible,14,2.8K OLED 2880x1800,Intel,Core Ultra 7 155H,3.8,16,1TB SSD,Intel,Arc Graphics,Windows 11,1.5,1699
+Dell,XPS 15,Notebook,15.6,3.5K OLED 3456x2160,Intel,Core i9 13900H,5.4,64,2TB SSD,Nvidia,GeForce RTX 4070,Windows 11,1.96,3199
+Alienware,m16 R2,Gaming,16,2.5K 240Hz 2560x1600,Intel,Core Ultra 9 185H,5.1,32,1TB SSD,Nvidia,GeForce RTX 4070,Windows 11,2.33,2799
+ASUS,ROG Strix SCAR 17,Gaming,17.3,2.5K 240Hz 2560x1440,Intel,Core i9 14900HX,5.8,32,2TB SSD,Nvidia,GeForce RTX 4080,Windows 11,2.9,3299
+Razer,Blade 14,Gaming,14,2.5K 240Hz 2560x1600,AMD,Ryzen 9 8945HS,5.2,32,1TB SSD,Nvidia,GeForce RTX 4070,Windows 11,1.78,2699
+MSI,Raider GE78 HX,Gaming,17,2.5K 240Hz 2560x1600,Intel,Core i9 14900HX,5.8,64,2TB SSD,Nvidia,GeForce RTX 4090,Windows 11,3.1,4199
+Acer,Predator Triton 17X,Gaming,17,2.5K Mini LED 2560x1600,Intel,Core i9 14900HX,5.8,64,2TB SSD,Nvidia,GeForce RTX 4090,Windows 11,3.3,4799
+Lenovo,Legion 9i,Gaming,16,3.2K Mini LED 3200x2000,Intel,Core i9 14900HX,5.8,64,2TB SSD,Nvidia,GeForce RTX 4090,Windows 11,2.6,4599
+HP,Omen 17,Gaming,17.3,QHD 165Hz 2560x1440,Intel,Core i7 13700HX,5.0,32,1TB SSD,Nvidia,GeForce RTX 4070,Windows 11,2.78,2199
+MSI,Pulse 17 B13V,Gaming,17.3,QHD 165Hz 2560x1440,Intel,Core i7 13700H,3.7,32,1TB SSD,Nvidia,GeForce RTX 4060,Windows 11,2.6,1799
+ASUS,TUF Gaming A16,Gaming,16,QHD 165Hz 2560x1440,AMD,Ryzen 9 7940HX,5.2,32,1TB SSD,AMD,Radeon RX 7600M XT,Windows 11,2.27,1999
+Acer,Nitro 16,Gaming,16,QHD 165Hz 2560x1440,Intel,Core i7 13700HX,5.0,32,1TB SSD,Nvidia,GeForce RTX 4060,Windows 11,2.7,1599
+Dell,G16 7630,Gaming,16,2.5K 165Hz 2560x1600,Intel,Core i9 13900HX,5.4,32,1TB SSD,Nvidia,GeForce RTX 4070,Windows 11,2.87,2399
+Framework,Laptop 16 DIY,Gaming,16,2.5K 165Hz 2560x1600,AMD,Ryzen 7 7840HS,5.1,64,2TB SSD,AMD,Radeon RX 7700S,Windows 11,2.4,2299
+System76,Bonobo WS,Workstation,17.3,4K 3840x2160,Intel,Core i9 13900K,5.8,128,4TB SSD,Nvidia,GeForce RTX 4090,Pop!_OS,4.5,5999
+LG,Gram 16,Ultrabook,16,2.5K 2560x1600,Intel,Core Ultra 7 155H,3.8,32,1TB SSD,Intel,Arc Graphics,Windows 11,1.24,1699
+Samsung,Galaxy Book4 Pro 360,2 in 1 Convertible,16,2.8K AMOLED 2880x1800,Intel,Core Ultra 7 155H,3.8,32,1TB SSD,Intel,Arc Graphics,Windows 11,1.69,2399
+Lenovo,ThinkPad P16s Gen 2,Workstation,16,2.5K 2560x1600,Intel,Core i7 13700U,3.5,32,1TB SSD,Intel,Iris Xe Graphics,Windows 11 Pro,1.68,2199
+HP,ZBook Firefly 16 G10,Workstation,16,2.5K 2560x1600,Intel,Core i7 13700H,3.7,32,1TB SSD,Nvidia,RTX A1000,Windows 11 Pro,2.19,2799
+Dell,Precision 5680,Workstation,16,4K+ 3840x2400,Intel,Core i9 13950HX,5.5,64,2TB SSD,Nvidia,RTX 3500 Ada,Windows 11 Pro,2.84,4299
+ASUS,ProArt Studiobook Pro 16 OLED,Workstation,16,4K OLED 3840x2400,Intel,Core i9 13980HX,5.6,64,4TB SSD,Nvidia,GeForce RTX 4080,Windows 11 Pro,2.4,4799
+Acer,ConceptD 7 Ezel,2 in 1 Convertible,15.6,4K 3840x2160,Intel,Core i7 13700H,3.7,32,1TB SSD,Nvidia,GeForce RTX 4060,Windows 11,2.5,2999
+MSI,CreatorPro X17,Workstation,17,4K 3840x2160,Intel,Core i9 13980HX,5.6,64,2TB SSD,Nvidia,RTX A5500,Windows 11 Pro,2.5,4999
+Lenovo,ThinkPad X1 Extreme Gen 5,Notebook,16,4K OLED 3840x2400,Intel,Core i9 13950HX,5.5,64,2TB SSD,Nvidia,GeForce RTX 4080,Windows 11 Pro,1.78,3899
+HP,Spectre x360 16,2 in 1 Convertible,16,4K+ OLED 3840x2400,Intel,Core Ultra 7 155H,3.8,32,2TB SSD,Intel,Arc Graphics,Windows 11,2.15,2699
+Dell,Inspiron 14 2-in-1,2 in 1 Convertible,14,2.2K Touchscreen 2240x1400,Intel,Core Ultra 7 155U,3.8,16,512GB SSD,Intel,Arc Graphics,Windows 11,1.66,1099
+ASUS,Vivobook S 16 OLED,Notebook,16,3.2K OLED 3200x2000,Intel,Core Ultra 7 155H,3.8,16,1TB SSD,Intel,Arc Graphics,Windows 11,1.5,1399
+Acer,Swift Go 16,Ultrabook,16,2.5K OLED 2560x1600,Intel,Core Ultra 7 155H,3.8,16,1TB SSD,Intel,Arc Graphics,Windows 11,1.6,1299
+Lenovo,IdeaPad Slim 5i,Notebook,16,2.5K 2560x1600,Intel,Core Ultra 5 125H,3.6,16,512GB SSD,Intel,Arc Graphics,Windows 11,1.89,999
+HP,Pavilion 15,Notebook,15.6,Full HD 1920x1080,Intel,Core i7 13700H,3.7,16,512GB SSD,Intel,Iris Xe Graphics,Windows 11,1.75,899
+Samsung,Galaxy Book4,Notebook,15.6,Full HD 1920x1080,Intel,Core 7 150U,3.3,16,512GB SSD,Intel,UHD Graphics,Windows 11,1.55,799
+LG,Gram 15,Ultrabook,15.6,Full HD 1920x1080,Intel,Core i7 13700H,3.7,16,512GB SSD,Intel,Iris Xe Graphics,Windows 11,1.15,1199
+Dell,Inspiron 15 3000,Notebook,15.6,Full HD 1920x1080,Intel,Core i5 13500H,3.5,16,512GB SSD,Intel,UHD Graphics,Windows 11,1.7,699
+ASUS,Vivobook 15,Notebook,15.6,Full HD 1920x1080,AMD,Ryzen 7 7730U,4.5,16,512GB SSD,AMD,Radeon Graphics,Windows 11,1.7,749
+Acer,Aspire 3,Notebook,15.6,Full HD 1920x1080,Intel,Core i5 12450H,3.3,8,512GB SSD,Intel,UHD Graphics,Windows 11,1.8,599
+Lenovo,V15 G4,Notebook,15.6,Full HD 1920x1080,Intel,Core i3 13100H,3.0,8,256GB SSD,Intel,UHD Graphics,Windows 11,1.7,499
+HP,15-fd0000,Notebook,15.6,Full HD 1920x1080,Intel,Core i3 13100H,3.0,8,256GB SSD,Intel,UHD Graphics,Windows 11,1.75,549
+Framework,Laptop 13 AMD,Notebook,13.5,2.2K 2256x1504,AMD,Ryzen 7 7840U,5.1,32,1TB SSD,AMD,Radeon 780M,Windows 11,1.3,1799
+System76,Galago Pro,Ultrabook,14.1,Full HD 1920x1080,Intel,Core i7 13700U,3.5,32,1TB SSD,Intel,Iris Xe Graphics,Pop!_OS,1.05,1299
+Microsoft,Surface Laptop Studio 2,2 in 1 Convertible,14.4,2.4K Touchscreen 2400x1600,Intel,Core i7 13700H,3.7,32,1TB SSD,Nvidia,GeForce RTX 4060,Windows 11,1.83,2399
+Google,Pixelbook Go,Ultrabook,13.3,4K Touchscreen 3840x2160,Intel,Core i7 8665U,4.8,16,256GB SSD,Intel,UHD Graphics 620,Chrome OS,1.06,1399
+ASUS,Chromebook CX9,Ultrabook,14,Full HD 1920x1080,Intel,Core i7 1185G7,4.8,16,512GB SSD,Intel,Iris Xe Graphics,Chrome OS,1.02,899
+Acer,Chromebook Spin 714,2 in 1 Convertible,14,2.5K Touchscreen 2560x1600,Intel,Core i5 1235U,4.4,8,256GB SSD,Intel,Iris Xe Graphics,Chrome OS,1.37,699
+Lenovo,ThinkPad C14 Chromebook,Notebook,14,Full HD 1920x1080,Intel,Core i3 1215U,4.4,8,128GB SSD,Intel,UHD Graphics,Chrome OS,1.4,599
+HP,Elite Dragonfly Chromebook,Ultrabook,13.5,2K Touchscreen 1920x1280,Intel,Core i5 1235U,4.4,16,256GB SSD,Intel,Iris Xe Graphics,Chrome OS,0.99,1099
+Apple,MacBook Air M2,Ultrabook,13.6,Liquid Retina 2560x1664,Apple,M2,3.5,16,512GB SSD,Apple,M2 10-core GPU,macOS,1.24,1499
+Apple,MacBook Pro M2,Ultrabook,13.3,Retina 2560x1600,Apple,M2,3.5,16,512GB SSD,Apple,M2 10-core GPU,macOS,1.4,1699
+Apple,MacBook Pro M2 Max,Ultrabook,16.2,Liquid Retina XDR 3456x2234,Apple,M2 Max,3.7,32,1TB SSD,Apple,M2 Max 38-core GPU,macOS,2.15,3699
+Apple,Mac Studio M2 Ultra,Workstation,0,N/A,Apple,M2 Ultra,3.7,128,8TB SSD,Apple,M2 Ultra 76-core GPU,macOS,2.7,7999
+Microsoft,Surface Pro 9,2 in 1 Convertible,13,2.8K Touchscreen 2880x1920,Intel,Core i7 1255U,4.7,16,512GB SSD,Intel,Iris Xe Graphics,Windows 11,0.88,1599
+Microsoft,Surface Laptop 5,Ultrabook,13.5,2.2K Touchscreen 2256x1504,Intel,Core i7 1255U,4.7,16,512GB SSD,Intel,Iris Xe Graphics,Windows 11,1.27,1699
+Microsoft,Surface Studio Laptop,Workstation,14.4,2.4K Touchscreen 2400x1600,Intel,Core i7 11370H,4.8,32,1TB SSD,Nvidia,GeForce RTX 3050 Ti,Windows 11,1.74,1799
+Google,Pixelbook Pro,Ultrabook,13.3,4K OLED Touchscreen 3840x2160,Intel,Core i7 1165G7,4.7,16,512GB SSD,Intel,Iris Xe Graphics,Chrome OS,1.04,1599
+Samsung,Galaxy Book3 Ultra,Ultrabook,16,2.8K AMOLED 2880x1800,Intel,Core i7 13700H,3.7,32,1TB SSD,Nvidia,GeForce RTX 4050,Windows 11,1.79,2399
+LG,Gram SuperSlim,Ultrabook,15.6,OLED 1920x1080,Intel,Core i7 1360P,5.0,16,512GB SSD,Intel,Iris Xe Graphics,Windows 11,0.99,1499
+Huawei,MateBook X Pro,Ultrabook,14.2,3K Touchscreen 3120x2080,Intel,Core i7 1260P,4.7,16,1TB SSD,Intel,Iris Xe Graphics,Windows 11,1.38,1999
+Honor,MagicBook Pro,Notebook,16.1,2.5K 2520x1680,AMD,Ryzen 7 6800H,4.7,16,512GB SSD,AMD,Radeon 680M,Windows 11,1.87,1299
+Xiaomi,Mi Laptop Pro,Ultrabook,14,2.8K 2880x1800,Intel,Core i7 12700H,4.7,16,1TB SSD,Intel,Iris Xe Graphics,Windows 11,1.4,1599
+Chuwi,CoreBook X Pro,Notebook,15.6,2K 2160x1440,Intel,Core i5 8259U,3.8,16,512GB SSD,Intel,Iris Plus Graphics 655,Windows 11,1.8,899
+GPD,Win Max 2,Gaming,10.1,2.5K Touchscreen 2560x1600,AMD,Ryzen 7 6800U,4.7,32,2TB SSD,AMD,Radeon 680M,Windows 11,1.005,1299
+One-Netbook,OneXPlayer 2,Gaming,8.4,2.5K Touchscreen 2560x1600,AMD,Ryzen 7 7840U,5.1,32,2TB SSD,AMD,Radeon 780M,Windows 11,0.82,1599
+Valve,Steam Deck OLED,Gaming,7.4,HDR OLED 1280x800,AMD,Custom APU,3.5,16,1TB SSD,AMD,Custom RDNA 2,SteamOS,0.64,649
+ASUS,ROG Ally,Gaming,7,FHD 1920x1080,AMD,Ryzen Z1 Extreme,5.1,16,512GB SSD,AMD,Radeon Graphics,Windows 11,0.608,799
+Lenovo,Legion Go,Gaming,8.8,2.5K 2560x1600,AMD,Ryzen Z1 Extreme,5.1,16,512GB SSD,AMD,Radeon Graphics,Windows 11,0.854,899
