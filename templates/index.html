@@ -4,7 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laptop AI Recommender</title>
+    
+    <!-- Integration Piece 1 - Custom matching orange/dark background styles -->
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+        @keyframes ab-float1 {
+            0%,100% { transform: translate(0,0) scale(1); }
+            30%     { transform: translate(40px,-30px) scale(1.06); }
+            65%     { transform: translate(-25px,20px) scale(0.96); }
+        }
+        @keyframes ab-float2 {
+            0%,100% { transform: translate(0,0) scale(1); }
+            40%     { transform: translate(-35px,25px) scale(1.1); }
+            75%     { transform: translate(20px,-15px) scale(0.93); }
+        }
+        @keyframes ab-float3 {
+            0%,100% { transform: translate(0,0) scale(1); }
+            50%     { transform: translate(0,0) scale(1.15); }
+        }
+
+        #animated-bg {
+            position: fixed; inset: 0; background: #070301;
+            overflow: hidden; z-index: -2;
+        }
+        #space-canvas {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            display: block;
+        }
+        #animated-bg .ab-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(15, 6, 2, 0.45) 0%, rgba(0, 0, 0, 0.85) 100%);
+            backdrop-filter: blur(2px);
+        }
+        #animated-bg .ab-orb {
+            position: absolute; border-radius: 50%;
+            mix-blend-mode: screen;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,15 +50,18 @@
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #ff6b35 0%, #8b5cf6 50%, #3b82f6 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: transparent;
             min-height: 100vh;
-            padding: 20px;
+            padding: 40px 20px;
             position: relative;
+            color: #f4f4f5;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
         
-        /* Animated Background */
+        /* Shifting ambient container base */
         body::before {
             content: '';
             position: fixed;
@@ -29,16 +70,17 @@
             width: 100%;
             height: 100%;
             background: 
-                radial-gradient(circle at 20% 50%, rgba(255, 107, 53, 0.8) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.8) 0%, transparent 50%),
-                radial-gradient(circle at 40% 80%, rgba(59, 130, 246, 0.7) 0%, transparent 50%),
-                radial-gradient(circle at 90% 70%, rgba(255, 107, 53, 0.6) 0%, transparent 50%),
-                radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.5) 0%, transparent 50%),
-                radial-gradient(circle at 70% 90%, rgba(59, 130, 246, 0.8) 0%, transparent 50%);
+                radial-gradient(circle at 20% 50%, rgba(255, 107, 53, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(180, 75, 20, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(255, 110, 30, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 90% 70%, rgba(255, 107, 53, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 10% 20%, rgba(150, 50, 15, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 90%, rgba(210, 95, 15, 0.12) 0%, transparent 50%);
             background-size: 400% 400%;
             animation: gradientShift 15s ease infinite;
-            z-index: 0;
+            z-index: -1;
             pointer-events: none;
+            opacity: 0.85;
         }
         
         /* Floating particles */
@@ -55,159 +97,113 @@
         
         .particle {
             position: absolute;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.06);
             border-radius: 50%;
             animation: float 20s infinite linear;
         }
         
-        .particle:nth-child(1) {
-            width: 8px;
-            height: 8px;
-            left: 10%;
-            animation-delay: 0s;
-            animation-duration: 25s;
-        }
-        
-        .particle:nth-child(2) {
-            width: 12px;
-            height: 12px;
-            left: 30%;
-            animation-delay: 2s;
-            animation-duration: 22s;
-        }
-        
-        .particle:nth-child(3) {
-            width: 6px;
-            height: 6px;
-            left: 50%;
-            animation-delay: 4s;
-            animation-duration: 28s;
-        }
-        
-        .particle:nth-child(4) {
-            width: 10px;
-            height: 10px;
-            left: 70%;
-            animation-delay: 6s;
-            animation-duration: 20s;
-        }
-        
-        .particle:nth-child(5) {
-            width: 14px;
-            height: 14px;
-            left: 85%;
-            animation-delay: 8s;
-            animation-duration: 26s;
-        }
-        
-        .particle:nth-child(6) {
-            width: 7px;
-            height: 7px;
-            left: 15%;
-            animation-delay: 10s;
-            animation-duration: 24s;
-        }
-        
-        .particle:nth-child(7) {
-            width: 9px;
-            height: 9px;
-            left: 65%;
-            animation-delay: 12s;
-            animation-duration: 27s;
-        }
-        
-        .particle:nth-child(8) {
-            width: 11px;
-            height: 11px;
-            left: 90%;
-            animation-delay: 14s;
-            animation-duration: 21s;
-        }
+        .particle:nth-child(1) { width: 4px; height: 4px; left: 10%; animation-delay: 0s; animation-duration: 25s; }
+        .particle:nth-child(2) { width: 6px; height: 6px; left: 30%; animation-delay: 2s; animation-duration: 22s; }
+        .particle:nth-child(3) { width: 3px; height: 3px; left: 50%; animation-delay: 4s; animation-duration: 28s; }
+        .particle:nth-child(4) { width: 5px; height: 5px; left: 70%; animation-delay: 6s; animation-duration: 20s; }
+        .particle:nth-child(5) { width: 7px; height: 7px; left: 85%; animation-delay: 8s; animation-duration: 26s; }
+        .particle:nth-child(6) { width: 4px; height: 4px; left: 15%; animation-delay: 10s; animation-duration: 24s; }
+        .particle:nth-child(7) { width: 5px; height: 5px; left: 65%; animation-delay: 12s; animation-duration: 27s; }
+        .particle:nth-child(8) { width: 6px; height: 6px; left: 90%; animation-delay: 14s; animation-duration: 21s; }
         
         @keyframes gradientShift {
-            0% {
-                background-position: 0% 50%;
-                transform: scale(1) rotate(0deg);
-            }
-            25% {
-                background-position: 100% 50%;
-                transform: scale(1.1) rotate(5deg);
-            }
-            50% {
-                background-position: 100% 100%;
-                transform: scale(1) rotate(0deg);
-            }
-            75% {
-                background-position: 0% 100%;
-                transform: scale(1.05) rotate(-3deg);
-            }
-            100% {
-                background-position: 0% 50%;
-                transform: scale(1) rotate(0deg);
-            }
+            0% { background-position: 0% 50%; transform: scale(1) rotate(0deg); }
+            25% { background-position: 100% 50%; transform: scale(1.05) rotate(2deg); }
+            50% { background-position: 100% 100%; transform: scale(1) rotate(0deg); }
+            75% { background-position: 0% 100%; transform: scale(1.02) rotate(-1deg); }
+            100% { background-position: 0% 50%; transform: scale(1) rotate(0deg); }
         }
         
         @keyframes float {
-            0% {
-                transform: translateY(100vh) translateX(0px) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100px) translateX(100px) rotate(360deg);
-                opacity: 0;
-            }
+            0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-100px) translateX(100px) rotate(360deg); opacity: 0; }
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            background: rgba(18, 11, 7, 0.45);
+            backdrop-filter: blur(28px) saturate(190%);
+            -webkit-backdrop-filter: blur(28px) saturate(190%);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 
+                0 30px 70px rgba(0, 0, 0, 0.7),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08),
+                0 0 100px rgba(255, 107, 53, 0.05);
             overflow: hidden;
             position: relative;
             z-index: 10;
         }
         
         .header {
-            background: linear-gradient(135deg, #ff6b35 0%, #8b5cf6 50%, #3b82f6 100%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            background: linear-gradient(180deg, rgba(255, 107, 53, 0.08) 0%, transparent 100%);
             color: white;
-            padding: 40px;
+            padding: 60px 40px;
             text-align: center;
+            position: relative;
         }
         
         .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
+            font-size: 2.8em;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, #ffffff 30%, #ff8c5a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            filter: drop-shadow(0 0 30px rgba(255, 107, 53, 0.15));
         }
         
         .header p {
-            font-size: 1.2em;
-            opacity: 0.9;
+            font-size: 1.15em;
+            opacity: 0.8;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.7);
+            letter-spacing: -0.01em;
         }
         
         .status-indicator {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 0.9em;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            top: 25px;
+            right: 25px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 6px 14px;
+            border-radius: 99px;
+            font-size: 0.75em;
+            font-family: 'JetBrains Mono', monospace;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            color: rgba(255, 255, 255, 0.85);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+        
+        .status-indicator:hover {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(255, 107, 53, 0.3);
+            transform: translateY(-1px);
         }
         
         .status-dot {
             display: inline-block;
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
             margin-right: 8px;
             animation: pulse 2s infinite;
@@ -215,141 +211,169 @@
         
         .status-api {
             background: #10b981;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
         }
         
         .status-csv {
             background: #f59e0b;
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
         }
         
         @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.1); }
+            100% { opacity: 1; transform: scale(1); }
         }
         
         .main-content {
-            padding: 40px;
+            padding: 50px 40px;
         }
         
         .recommendation-form {
-            background: #f8f9fa;
-            padding: 30px;
-            border-radius: 10px;
-            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.015);
+            padding: 35px;
+            border-radius: 14px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+        }
+        
+        .recommendation-form h2 {
+            margin-bottom: 24px;
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: -0.02em;
         }
         
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
         
         .form-group label {
             display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #333;
+            margin-bottom: 10px;
+            font-weight: 500;
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.85);
+            letter-spacing: -0.01em;
         }
         
         .form-group select,
         .form-group input {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            background: white;
+            padding: 13px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 10px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            background-color: rgba(255, 255, 255, 0.03);
+            color: #ffffff;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.01);
+            outline: none;
         }
         
         .form-group select:focus,
         .form-group input:focus {
-            outline: none;
-            border-color: #8b5cf6;
-            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+            border-color: rgba(255, 107, 53, 0.6);
+            background-color: rgba(255, 255, 255, 0.06);
+            box-shadow: 
+                0 0 0 4px rgba(255, 107, 53, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
             transform: translateY(-1px);
         }
         
         .form-group select:hover,
         .form-group input:hover {
-            border-color: #c0c0c0;
+            border-color: rgba(255, 107, 53, 0.3);
             transform: translateY(-1px);
         }
         
-        /* Custom dropdown animation */
         .form-group select {
+            width: 100%;
+            padding: 13px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 10px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            background-color: rgba(255, 255, 255, 0.03);
+            color: #ffffff;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.01);
             cursor: pointer;
             appearance: none;
-            background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="%23666" d="M2 0L0 2h4zm0 5L0 3h4z"/></svg>');
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            background-size: 12px;
-            padding-right: 40px;
-            position: relative;
-            overflow: hidden;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="%23ff6b35" d="M2 0L0 2h4zm0 5L0 3h4z"/></svg>');
+            background-repeat: no-repeat !important;
+            background-position: right 16px center !important;
+            background-size: 11px !important;
+            padding-right: 44px;
         }
         
-        .form-group select::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.1), transparent);
-            transition: left 0.6s ease;
-            pointer-events: none;
+        .form-group select option {
+            background: #160f0c;
+            color: #ffffff;
         }
-        
-        .form-group select:hover::before {
-            left: 100%;
-        }
-        
+
         .form-group select:focus {
-            background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="%238b5cf6" d="M2 0L0 2h4zm0 5L0 3h4z"/></svg>');
+            background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="%23ff8c5a" d="M2 0L0 2h4zm0 5L0 3h4z"/></svg>');
+            background-repeat: no-repeat !important;
+            background-position: right 16px center !important;
+            background-size: 11px !important;
             animation: selectPulse 0.3s ease;
         }
         
         .form-group select:hover {
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.15);
+            background-repeat: no-repeat !important;
+            background-position: right 16px center !important;
+            background-size: 11px !important;
         }
         
         @keyframes selectPulse {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.02);
-            }
-            100% {
-                transform: scale(1);
-            }
+            0% { transform: scale(1); }
+            50% { transform: scale(1.01); }
+            100% { transform: scale(1); }
         }
         
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 24px;
         }
         
         @media (max-width: 768px) {
             .form-row {
                 grid-template-columns: 1fr;
+                gap: 16px;
             }
         }
         
         .btn {
-            background: linear-gradient(135deg, #ff6b35 0%, #8b5cf6 50%, #3b82f6 100%);
-            color: white;
-            padding: 15px 30px;
+            background: linear-gradient(135deg, #ff6b35 0%, #ea580c 100%);
+            color: #ffffff;
+            padding: 16px 30px;
             border: none;
-            border-radius: 8px;
-            font-size: 16px;
+            border-radius: 10px;
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
             width: 100%;
             position: relative;
             overflow: hidden;
+            box-shadow: 
+                0 4px 15px rgba(234, 88, 12, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            font-family: inherit;
+            letter-spacing: -0.01em;
         }
         
         .btn::before {
@@ -359,13 +383,16 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
             transition: left 0.5s;
         }
         
         .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            box-shadow: 
+                0 8px 25px rgba(234, 88, 12, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            background: linear-gradient(135deg, #ff7a4a 0%, #f97316 100%);
         }
         
         .btn:hover::before {
@@ -374,38 +401,64 @@
         
         .btn:active {
             transform: translateY(0);
+            box-shadow: 0 4px 10px rgba(234, 88, 12, 0.2);
         }
         
         .search-section {
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
         
+        .search-section h2 {
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: -0.02em;
+        }
+ 
         .search-box {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             margin-bottom: 20px;
         }
         
         .search-box input {
             flex: 1;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 16px;
+            padding: 14px 18px;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 10px;
+            font-size: 15px;
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.01);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+ 
+        .search-box input:focus {
+            outline: none;
+            border-color: rgba(255, 107, 53, 0.6);
+            background: rgba(255, 255, 255, 0.06);
+            box-shadow: 
+                0 0 0 4px rgba(255, 107, 53, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
         
         .search-box button {
-            padding: 12px 24px;
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
+            padding: 14px 28px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
             cursor: pointer;
             font-weight: 600;
+            font-size: 15px;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             position: relative;
             overflow: hidden;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 2px 8px rgba(40, 167, 69, 0.2);
         }
         
         .search-box button::before {
@@ -415,14 +468,15 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
             transition: left 0.6s ease;
         }
         
         .search-box button:hover {
-            transform: translateY(-2px) scale(1.05);
-            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
-            background: linear-gradient(135deg, #218838 0%, #1e7e34 100%);
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 107, 53, 0.35);
+            box-shadow: 0 0 15px rgba(255, 107, 53, 0.1);
         }
         
         .search-box button:hover::before {
@@ -430,111 +484,158 @@
         }
         
         .search-box button:active {
-            transform: translateY(0) scale(0.98);
-            transition: all 0.1s ease;
+            transform: translateY(0);
         }
         
         .search-box button:focus {
             outline: none;
-            box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.25);
+            box-shadow: 0 0 0 3px rgba(230, 81, 0, 0.25);
         }
         
         .loading {
             text-align: center;
-            padding: 40px;
-            color: #666;
-            font-size: 18px;
+            padding: 60px 40px;
+            color: #ff8c5a;
+            font-size: 1.1em;
+            font-weight: 500;
         }
         
         .results {
-            margin-top: 30px;
+            margin-top: 40px;
+            animation: fadeIn 0.4s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .results h2 {
-            color: #333;
-            margin-bottom: 20px;
-            font-size: 1.8em;
+            color: #ffffff;
+            margin-bottom: 24px;
+            font-size: 1.6em;
+            font-weight: 700;
+            letter-spacing: -0.02em;
         }
         
         .laptop-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            gap: 24px;
         }
         
         .laptop-card {
-            background: white;
-            border: 1px solid #e0e0e0;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.2s;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            padding: 26px;
+            box-shadow: 
+                0 12px 35px rgba(0, 0, 0, 0.45),
+                inset 0 1px 0 rgba(255, 255, 255, 0.03);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
         }
         
         .laptop-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 107, 53, 0.25);
+            box-shadow: 
+                0 20px 50px rgba(0, 0, 0, 0.65),
+                0 0 25px rgba(255, 107, 53, 0.06);
         }
         
         .laptop-card img {
             width: 100%;
-            height: 200px;
+            height: 180px;
             object-fit: cover;
-            border-radius: 5px;
-            margin-bottom: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
         
         .laptop-card h3 {
-            color: #333;
+            color: #ffffff;
             margin-bottom: 10px;
-            font-size: 1.2em;
+            font-size: 1.25em;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            line-height: 1.3;
         }
         
         .laptop-card .brand {
-            color: #667eea;
+            color: #ff8c5a;
             font-weight: 600;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            font-size: 0.8em;
+            letter-spacing: 1px;
         }
         
         .laptop-card .price {
-            color: #28a745;
-            font-size: 1.3em;
+            color: #ff6b35;
+            font-size: 1.4em;
             font-weight: 700;
-            margin-bottom: 10px;
+            margin-bottom: 16px;
+            font-family: 'JetBrains Mono', monospace;
         }
         
         .laptop-card .specs {
-            color: #666;
+            color: rgba(255, 255, 255, 0.65);
             font-size: 0.9em;
-            line-height: 1.4;
+            line-height: 1.6;
+            margin-top: auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 16px;
+        }
+        
+        .laptop-card .specs p {
+            margin-bottom: 6px;
+        }
+        
+        .laptop-card .specs p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .laptop-card .specs strong {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
         }
         
         .error {
-            background: #f8d7da;
-            color: #721c24;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border: 1px solid #f5c6cb;
+            background: rgba(239, 68, 68, 0.08);
+            color: #fca5a5;
+            padding: 16px 20px;
+            border-radius: 10px;
+            margin: 24px 0;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            font-size: 14px;
         }
         
         /* Chatbot Styles */
         .chatbot-container {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 350px;
-            height: 500px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            bottom: 30px;
+            right: 30px;
+            width: 380px;
+            height: 520px;
+            background: rgba(14, 9, 7, 0.75);
+            backdrop-filter: blur(28px) saturate(190%);
+            -webkit-backdrop-filter: blur(28px) saturate(190%);
+            border-radius: 18px;
+            box-shadow: 
+                0 25px 60px rgba(0, 0, 0, 0.8),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                0 0 40px rgba(255, 107, 53, 0.03);
             display: none;
             flex-direction: column;
             overflow: hidden;
             z-index: 1000;
-            transform: scale(0.8) translateY(20px);
+            transform: scale(0.9) translateY(20px);
             opacity: 0;
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
         
         .chatbot-container.show {
@@ -543,211 +644,240 @@
         }
         
         .chatbot-header {
-            background: linear-gradient(135deg, #ff6b35 0%, #8b5cf6 50%, #3b82f6 100%);
+            background: linear-gradient(180deg, rgba(255, 107, 53, 0.12) 0%, transparent 100%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
             color: white;
-            padding: 15px;
+            padding: 18px 20px;
             font-weight: 600;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         
+        .chatbot-header span {
+            font-size: 1.05em;
+            letter-spacing: -0.01em;
+            font-weight: 600;
+        }
+        
         .chatbot-close {
             background: none;
             border: none;
-            color: white;
-            font-size: 20px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 24px;
             cursor: pointer;
             padding: 0;
-            width: 25px;
-            height: 25px;
+            width: 28px;
+            height: 28px;
             display: flex;
             align-items: center;
             justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+        
+        .chatbot-close:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.06);
         }
         
         .chatbot-messages {
             flex: 1;
-            padding: 15px;
+            padding: 20px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 14px;
         }
         
         .message {
-            max-width: 80%;
-            padding: 10px 15px;
-            border-radius: 15px;
+            max-width: 82%;
+            padding: 12px 16px;
+            border-radius: 16px;
             word-wrap: break-word;
-            line-height: 1.4;
-            animation: messageSlideIn 0.3s ease-out;
+            line-height: 1.5;
+            font-size: 14px;
+            animation: messageSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
             opacity: 0;
             animation-fill-mode: forwards;
         }
         
         @keyframes messageSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px) scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
+            from { opacity: 0; transform: translateY(12px) scale(0.96); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
         
         .message.user {
-            background: linear-gradient(135deg, #ff6b35 0%, #8b5cf6 100%);
+            background: linear-gradient(135deg, #ff6b35 0%, #ea580c 100%);
             color: white;
             align-self: flex-end;
-            border-bottom-right-radius: 5px;
+            border-bottom-right-radius: 4px;
+            box-shadow: 0 4px 12px rgba(234, 88, 12, 0.15);
         }
         
         .message.bot {
-            background: #f0f0f0;
-            color: #333;
+            background: rgba(255, 255, 255, 0.035);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.95);
             align-self: flex-start;
-            border-bottom-left-radius: 5px;
+            border-bottom-left-radius: 4px;
         }
         
         .chatbot-input {
-            padding: 15px;
-            border-top: 1px solid #e0e0e0;
+            padding: 16px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
             display: flex;
-            gap: 10px;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.01);
+            align-items: center;
         }
         
         .chatbot-input input {
             flex: 1;
-            padding: 10px;
-            border: 1px solid #e0e0e0;
-            border-radius: 20px;
+            padding: 12px 18px;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 99px;
             outline: none;
+            color: #ffffff;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.2s ease;
+        }
+        
+        .chatbot-input input:focus {
+            border-color: rgba(255, 107, 53, 0.6);
+            background: rgba(255, 255, 255, 0.07);
+            box-shadow: 0 0 10px rgba(255, 107, 53, 0.1);
         }
         
         .chatbot-input button {
-            background: #667eea;
+            background: #ff6b35;
             color: white;
             border: none;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.2s;
+            box-shadow: 0 4px 10px rgba(255, 107, 53, 0.2);
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        
+        .chatbot-input button:hover {
+            transform: scale(1.05);
+            background: #ea580c;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.35);
         }
         
         .chatbot-toggle {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #ff6b35 0%, #c2410c 100%);
             color: white;
             border: none;
             border-radius: 50%;
             width: 60px;
             height: 60px;
-            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 
+                0 10px 25px rgba(120, 40, 0, 0.3),
+                0 0 30px rgba(255, 107, 53, 0.15);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             z-index: 999;
             animation: chatbotPulse 2s infinite;
         }
         
         .chatbot-toggle:hover {
-            transform: scale(1.1) rotate(5deg);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            transform: scale(1.08) rotate(5deg);
+            box-shadow: 
+                0 15px 30px rgba(255, 107, 53, 0.4),
+                0 0 40px rgba(255, 107, 53, 0.3);
         }
         
         .chatbot-toggle:active {
-            transform: scale(0.95) rotate(-5deg);
+            transform: scale(0.95);
         }
         
         @keyframes chatbotPulse {
-            0% {
-                box-shadow: 0 5px 15px rgba(0,0,0,0.3), 0 0 0 0 rgba(102, 126, 234, 0.7);
-            }
-            70% {
-                box-shadow: 0 5px 15px rgba(0,0,0,0.3), 0 0 0 10px rgba(102, 126, 234, 0);
-            }
-            100% {
-                box-shadow: 0 5px 15px rgba(0,0,0,0.3), 0 0 0 0 rgba(102, 126, 234, 0);
-            }
+            0% { box-shadow: 0 10px 25px rgba(120,40,0,0.25), 0 0 0 0 rgba(255, 107, 53, 0.5); }
+            70% { box-shadow: 0 10px 25px rgba(120,40,0,0.25), 0 0 0 14px rgba(255, 107, 53, 0); }
+            100% { box-shadow: 0 10px 25px rgba(120,40,0,0.25), 0 0 0 0 rgba(255, 107, 53, 0); }
         }
         
         .typing-indicator {
             display: none;
             align-self: flex-start;
-            padding: 10px 15px;
-            background: #f0f0f0;
-            border-radius: 15px;
-            border-bottom-left-radius: 5px;
+            padding: 12px 18px;
+            background: rgba(255, 255, 255, 0.035);
+            border-radius: 16px;
+            border-bottom-left-radius: 4px;
             max-width: 80px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
         
         .typing-dots {
             display: flex;
-            gap: 3px;
+            gap: 4px;
         }
         
         .typing-dots span {
             width: 6px;
             height: 6px;
-            background: #999;
+            background: #ff8c5a;
             border-radius: 50%;
             animation: typing 1.4s infinite;
         }
         
-        .typing-dots span:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-        
-        .typing-dots span:nth-child(3) {
-            animation-delay: 0.4s;
-        }
+        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
         
         @keyframes typing {
-            0%, 60%, 100% {
-                transform: translateY(0);
-            }
-            30% {
-                transform: translateY(-10px);
-            }
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-6px); }
         }
         
         /* Typewriter effect for AI responses */
         .typewriter {
             overflow: hidden;
-            border-right: 2px solid #666;
+            border-right: 2px solid #ea580c;
             white-space: nowrap;
             animation: typewriter 2s steps(40, end), blink-caret 0.75s step-end infinite;
         }
         
         @keyframes typewriter {
-            from {
-                width: 0;
-            }
-            to {
-                width: 100%;
-            }
+            from { width: 0; }
+            to { width: 100%; }
         }
         
         @keyframes blink-caret {
-            from, to {
-                border-color: transparent;
-            }
-            50% {
-                border-color: #666;
-            }
+            from, to { border-color: transparent; }
+            50% { border-color: #ea580c; }
         }
     </style>
 </head>
 <body>
+    <!-- Integration Piece 2 - Background element, poster set to orange cosmic nebula, orbs changed to warm dark orange colors instead of blue/purple -->
+    <div id="animated-bg">
+        <canvas id="space-canvas"></canvas>
+        <div class="ab-overlay"></div>
+        <div class="ab-orb" style="top:-20%;left:15%;width:600px;height:600px;background:rgba(180,54,20,0.28);filter:blur(120px);animation:ab-float1 14s ease-in-out infinite;"></div>
+        <div class="ab-orb" style="bottom:-10%;right:15%;width:500px;height:500px;background:rgba(150,46,15,0.26);filter:blur(120px);animation:ab-float2 18s ease-in-out infinite;"></div>
+        <div class="ab-orb" style="top:50%;left:50%;transform:translate(-50%,-50%);width:400px;height:400px;background:rgba(220,84,15,0.16);filter:blur(100px);animation:ab-float3 22s ease-in-out infinite;"></div>
+        <div class="ab-orb" style="top:10%;right:28%;width:220px;height:220px;background:rgba(255,120,25,0.12);filter:blur(80px);animation:ab-float1 10s ease-in-out infinite reverse;animation-delay:-4s;"></div>
+        <div class="ab-orb" style="bottom:18%;left:22%;width:280px;height:280px;background:rgba(160,50,10,0.15);filter:blur(90px);animation:ab-float2 12s ease-in-out infinite reverse;animation-delay:-7s;"></div>
+    </div>
+
     <!-- Floating Particles -->
-    <div class="floating-particles">
+    <div class="floating-particles" id="particles-container">
         <div class="particle"></div>
         <div class="particle"></div>
         <div class="particle"></div>
@@ -758,13 +888,13 @@
         <div class="particle"></div>
     </div>
     
-    <div class="container">
+    <div class="container" id="main-web-container">
         <div class="header">
             <div class="status-indicator" id="statusIndicator">
                 <span class="status-dot status-api" id="statusDot"></span>
                 <span id="statusText">API Mode</span>
             </div>
-            <h1>🖥️ Laptop AI Recommender</h1>
+            <h1>Laptop AI Recommender</h1>
             <p>Find your perfect laptop with AI-powered recommendations</p>
         </div>
         
@@ -809,7 +939,7 @@
                             <option value="System76">System76</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn">Get AI Recommendations</button>
+                    <button type="submit" class="btn" id="find-button">Get AI Recommendations</button>
                 </form>
             </div>
             
@@ -818,7 +948,7 @@
                 <h2>Search Laptops</h2>
                 <div class="search-box">
                     <input type="text" id="searchQuery" placeholder="Search for specific laptop models...">
-                    <button onclick="searchLaptops()">Search</button>
+                    <button onclick="searchLaptops()" id="search-action-button">Search</button>
                 </div>
             </div>
             
@@ -839,15 +969,17 @@
     </div>
     
     <!-- Chatbot Toggle Button -->
-    <button class="chatbot-toggle" onclick="toggleChatbot()" id="chatbotToggle">
-        💬
+    <button class="chatbot-toggle" onclick="toggleChatbot()" id="chatbotToggle" aria-label="Toggle laptop assistant chat">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
     </button>
     
     <!-- Chatbot Container -->
     <div class="chatbot-container" id="chatbotContainer">
         <div class="chatbot-header">
-            <span>🤖 Laptop Assistant</span>
-            <button class="chatbot-close" onclick="toggleChatbot()">
+            <span>Laptop Assistant</span>
+            <button class="chatbot-close" onclick="toggleChatbot()" id="close-chatbot">
                 ×
             </button>
         </div>
@@ -865,7 +997,7 @@
         </div>
         <div class="chatbot-input">
             <input type="text" placeholder="Ask me about laptops..." id="chatbotInput" onkeypress="handleChatKeyPress(event)">
-            <button onclick="sendMessage()">➤</button>
+            <button onclick="sendMessage()" id="send-chat-payload">➤</button>
         </div>
     </div>
     
@@ -1118,7 +1250,7 @@
             messageDiv.style.opacity = '1';
             
             let index = 0;
-            const speed = 30; // milliseconds per character
+            const speed = 25; // milliseconds per character
             
             function typeCharacter() {
                 if (index < text.length) {
@@ -1133,7 +1265,7 @@
             }
             
             // Add initial cursor effect
-            messageDiv.style.borderRight = '2px solid #666';
+            messageDiv.style.borderRight = '2px solid #ea580c';
             
             // Start typing after a short delay
             setTimeout(typeCharacter, 200);
@@ -1200,6 +1332,238 @@
                 resetApiLimit();
             }
         });
+    </script>
+    
+    <!-- Hardware-accelerated Space Nebula & Twinkling Parallax Starfield Canvas -->
+    <script>
+        (function() {
+            var canvas = document.getElementById('space-canvas');
+            if (!canvas) return;
+            var ctx = canvas.getContext('2d');
+            
+            var width = canvas.width = window.innerWidth;
+            var height = canvas.height = window.innerHeight;
+            
+            var scale = window.devicePixelRatio || 1;
+            
+            function resize() {
+                width = window.innerWidth;
+                height = window.innerHeight;
+                canvas.width = width * scale;
+                canvas.height = height * scale;
+                canvas.style.width = width + 'px';
+                canvas.style.height = height + 'px';
+                ctx.scale(scale, scale);
+                initStars();
+            }
+            
+            window.addEventListener('resize', resize);
+            
+            // Mouse track for subtle interactive parallax
+            var mouseX = 0, mouseY = 0;
+            var targetMouseX = 0, targetMouseY = 0;
+            
+            window.addEventListener('mousemove', function(e) {
+                targetMouseX = (e.clientX - width / 2) / (width / 2);
+                targetMouseY = (e.clientY - height / 2) / (height / 2);
+            });
+            
+            // Touch support for parallax
+            window.addEventListener('touchmove', function(e) {
+                if (e.touches && e.touches[0]) {
+                    targetMouseX = (e.touches[0].clientX - width / 2) / (width / 2);
+                    targetMouseY = (e.touches[0].clientY - height / 2) / (height / 2);
+                }
+            });
+            
+            // Stars configuration
+            var stars = [];
+            var numStars = 150;
+            
+            function initStars() {
+                stars = [];
+                for (var i = 0; i < numStars; i++) {
+                    stars.push({
+                        x: Math.random() * width,
+                        y: Math.random() * height,
+                        size: Math.random() * 1.5 + 0.5,
+                        baseOpacity: Math.random() * 0.7 + 0.3,
+                        speed: Math.random() * 0.05 + 0.01,
+                        depth: Math.random() * 1.5 + 0.5, // parallax depth
+                        twinkleSpeed: Math.random() * 0.02 + 0.005,
+                        phase: Math.random() * Math.PI * 2
+                    });
+                }
+            }
+            
+            // Nebula gas clouds setup
+            var nebulae = [
+                {
+                    x: width * 0.3,
+                    y: height * 0.4,
+                    r: Math.max(width, height) * 0.35,
+                    vx: 0.15,
+                    vy: -0.1,
+                    angle: 0,
+                    colorStart: 'rgba(255, 107, 53, 0.09)',
+                    colorEnd: 'rgba(255, 107, 53, 0)'
+                },
+                {
+                    x: width * 0.7,
+                    y: height * 0.6,
+                    r: Math.max(width, height) * 0.4,
+                    vx: -0.1,
+                    vy: 0.12,
+                    angle: Math.PI / 3,
+                    colorStart: 'rgba(180, 54, 20, 0.12)',
+                    colorEnd: 'rgba(180, 54, 20, 0)'
+                },
+                {
+                    x: width * 0.5,
+                    y: height * 0.2,
+                    r: Math.max(width, height) * 0.25,
+                    vx: 0.08,
+                    vy: 0.08,
+                    angle: Math.PI,
+                    colorStart: 'rgba(255, 160, 50, 0.06)',
+                    colorEnd: 'rgba(255, 160, 50, 0)'
+                }
+            ];
+            
+            // Meteors (shooting stars)
+            var meteors = [];
+            
+            function spawnMeteor() {
+                if (meteors.length >= 2) return;
+                meteors.push({
+                    x: Math.random() * width * 1.2,
+                    y: -50,
+                    length: Math.random() * 80 + 40,
+                    speed: Math.random() * 15 + 10,
+                    opacity: 1,
+                    angle: Math.PI / 6 + (Math.random() * 0.1 - 0.05), // ~30 degrees down-left
+                    thickness: Math.random() * 1.5 + 0.5
+                });
+            }
+            
+            // Spawn meteor at random times (approx once every 5-10 seconds)
+            setInterval(function() {
+                if (Math.random() < 0.45) {
+                    spawnMeteor();
+                }
+            }, 3000);
+            
+            function animate() {
+                // Smooth interpolation for parallax
+                mouseX += (targetMouseX - mouseX) * 0.05;
+                mouseY += (targetMouseY - mouseY) * 0.05;
+                
+                ctx.clearRect(0, 0, width, height);
+                
+                // 1. Draw Nebulae
+                nebulae.forEach(function(neb) {
+                    // Update nebula position based on vx/vy and subtle sinus floating
+                    neb.angle += 0.0005;
+                    var offsetX = Math.sin(neb.angle) * 30;
+                    var offsetY = Math.cos(neb.angle) * 30;
+                    
+                    var cx = neb.x + offsetX - mouseX * 25;
+                    var cy = neb.y + offsetY - mouseY * 25;
+                    
+                    // Keep bounds circular loop fallback
+                    if (cx < -neb.r) neb.x = width + neb.r;
+                    if (cx > width + neb.r) neb.x = -neb.r;
+                    if (cy < -neb.r) neb.y = height + neb.r;
+                    if (cy > height + neb.r) neb.y = -neb.r;
+                    
+                    var gradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, neb.r);
+                    gradient.addColorStop(0, neb.colorStart);
+                    gradient.addColorStop(0.5, neb.colorStart.replace(/[\d\.]+\)$/, '0.04)'));
+                    gradient.addColorStop(1, neb.colorEnd);
+                    
+                    ctx.fillStyle = gradient;
+                    ctx.fillRect(0, 0, width, height);
+                });
+                
+                // 2. Draw Stars
+                stars.forEach(function(star) {
+                    // Slow drift motion
+                    star.x -= star.speed;
+                    star.y -= star.speed * 0.5;
+                    
+                    // Wrap-around screen
+                    if (star.x < 0) { star.x = width; star.y = Math.random() * height; }
+                    if (star.y < 0) { star.y = height; star.x = Math.random() * width; }
+                    
+                    // Calculate parallax coordinates based on depth and mouse offset
+                    var px = star.x - mouseX * 15 * star.depth;
+                    var py = star.y - mouseY * 15 * star.depth;
+                    
+                    // Twinkle calculation
+                    star.phase += star.twinkleSpeed;
+                    var opacity = star.baseOpacity + Math.sin(star.phase) * 0.25;
+                    opacity = Math.max(0.1, Math.min(1, opacity));
+                    
+                    // Draw Star
+                    ctx.fillStyle = 'rgba(255, 230, 215, ' + opacity + ')';
+                    ctx.beginPath();
+                    ctx.arc(px, py, star.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    // Add bright core glows to larger stars
+                    if (star.size > 1.6) {
+                        ctx.fillStyle = 'rgba(255, 255, 255, ' + (opacity * 0.4) + ')';
+                        ctx.beginPath();
+                        ctx.arc(px, py, star.size * 2.2, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                });
+                
+                // 3. Draw Meteors
+                for (var i = meteors.length - 1; i >= 0; i--) {
+                    var m = meteors[i];
+                    
+                    // Update physical movement
+                    m.x -= m.speed * Math.cos(m.angle);
+                    m.y += m.speed * Math.sin(m.angle);
+                    m.opacity -= 0.015;
+                    
+                    if (m.opacity <= 0 || m.x < -m.length || m.y > height + 50) {
+                        meteors.splice(i, 1);
+                        continue;
+                    }
+                    
+                    // Draw tail gradient
+                    var tailGrad = ctx.createLinearGradient(
+                        m.x, m.y, 
+                        m.x + m.length * Math.cos(m.angle), 
+                        m.y - m.length * Math.sin(m.angle)
+                    );
+                    tailGrad.addColorStop(0, 'rgba(255, 170, 110, ' + m.opacity + ')');
+                    tailGrad.addColorStop(0.3, 'rgba(255, 107, 53, ' + (m.opacity * 0.6) + ')');
+                    tailGrad.addColorStop(1, 'rgba(234, 88, 12, 0)');
+                    
+                    ctx.strokeStyle = tailGrad;
+                    ctx.lineWidth = m.thickness;
+                    ctx.lineCap = 'round';
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(m.x, m.y);
+                    ctx.lineTo(
+                        m.x + m.length * Math.cos(m.angle), 
+                        m.y - m.length * Math.sin(m.angle)
+                    );
+                    ctx.stroke();
+                }
+                
+                requestAnimationFrame(animate);
+            }
+            
+            // Launch canvas init & loop
+            resize();
+            initStars();
+            animate();
+        })();
     </script>
 </body>
 </html>
