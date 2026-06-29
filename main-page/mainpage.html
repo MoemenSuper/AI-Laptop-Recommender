@@ -14,6 +14,7 @@
                     class="laptop-video"
                     preload="metadata"
                     playsinline
+                    muted
                 >
                     <source src="../assets/laptop_bootup_animation.mp4" type="video/mp4" />
                 </video>
@@ -29,7 +30,7 @@
         <script>
             const video = document.getElementById("laptop-video");
             const hotspot = document.getElementById("video-hotspot");
-
+            video.playbackRate = 2;
             hotspot.addEventListener("click", async () => {
                 try {
                     hotspot.classList.add("is-hidden");

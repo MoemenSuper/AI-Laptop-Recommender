@@ -5,7 +5,8 @@ import json
 import pandas as pd
 import os
 from fuzzywuzzy import fuzz
-
+from dotenv import load_dotenv
+load_dotenv()
 app = Flask(__name__)
 
 # TechSpecs API Configuration
@@ -15,7 +16,7 @@ BASE_URL = "https://api.techspecs.io/v5"
 headers = {"accept": "application/json", "X-API-KEY": TECHSPECS_API_KEY, "X-API-ID": TECHSPECS_API_ID}
 
 # Groq AI Configuration (Much higher limits than Gemini!)
-GROQ_API_KEY = "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"
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 GROQ_BASE_URL = "https://api.groq.com/openai/v1/chat/completions"
 if GROQ_API_KEY:
     print("✅ Groq AI configured successfully! (14,400 requests/day)")
