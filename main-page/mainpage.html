@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Lapwise</title>
+        <link rel="stylesheet" href="mainpage.css" />
+    </head>
+    <body>
+        <main class="page-shell">
+            <section class="video-stage" aria-label="Laptop intro video">
+                <video
+                    id="laptop-video"
+                    class="laptop-video"
+                    preload="metadata"
+                    playsinline
+                >
+                    <source src="../assets/laptop_bootup_animation.mp4" type="video/mp4" />
+                </video>
+                <button
+                    id="video-hotspot"
+                    class="video-hotspot"
+                    type="button"
+                    aria-label="Play laptop video"
+                ></button>
+            </section>
+        </main>
+
+        <script>
+            const video = document.getElementById("laptop-video");
+            const hotspot = document.getElementById("video-hotspot");
+
+            hotspot.addEventListener("click", async () => {
+                try {
+                    hotspot.classList.add("is-hidden");
+                    await video.play();
+                } catch (error) {
+                    hotspot.classList.remove("is-hidden");
+                }
+            });
+
+            video.addEventListener("ended", () => {
+                video.currentTime = 0;
+                hotspot.classList.remove("is-hidden");
+            });
+        </script>
+    </body>
+</html>
