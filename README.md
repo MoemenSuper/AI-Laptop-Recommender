@@ -48,6 +48,7 @@ If the TechSpecs API fails or hits its limit, the app falls back to the local da
   - `requests`
   - `pandas`
   - `fuzzywuzzy`
+  - `python-dotenv`
 
 Optional but useful:
 
@@ -65,12 +66,18 @@ python -m venv .venv
 2. Install dependencies:
 
 ```bash
-pip install flask requests pandas fuzzywuzzy
+pip install flask requests pandas fuzzywuzzy python-dotenv
 ```
 
-3. Update API credentials in `app.py` if needed.
+3. Create a `.env` file in the project root:
 
-   The current code reads the TechSpecs and Groq credentials directly from constants in `app.py`, so make sure they are valid before running the app.
+```text
+GROQ_API_KEY=your_groq_api_key_here
+TECHSPECS_API_KEY=your_techspecs_api_key_here
+TECHSPECS_API_ID=your_techspecs_api_id_here
+```
+
+   You can copy `.env.example` and replace the placeholder values.
 
 4. Start the Flask app:
 
@@ -108,7 +115,7 @@ http://127.0.0.1:8080
 - Keep `laptop_specs_enhanced.csv` in the project root so the fallback loader can find it.
 - The chatbot depends on a valid Groq API key.
 - The recommendation and search routes can still function in CSV fallback mode even if the TechSpecs API is unavailable.
-- For production use, move API keys out of source code and into environment variables.
+- API keys are loaded from environment variables via `.env`.
 
 ## Troubleshooting
 
