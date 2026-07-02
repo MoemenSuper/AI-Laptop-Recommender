@@ -31,13 +31,16 @@ If the TechSpecs API fails or hits its limit, the app falls back to the local da
 
 ## Project Structure
 
-- `app.py` - main Flask application, API integration, CSV fallback, and chat endpoints
+- `app.py` - Flask routes and application orchestration
+- `config.py` - environment-backed runtime configuration
+- `laptop_catalog.py` - TechSpecs search plus CSV fallback search
+- `chat_intent.py` - chatbot intent classification and rule-based fallback replies
+- `groq_client.py` - Groq chat completion adapter
 - `ai_training_system.py` - laptop-specific system prompts and prompt-building helpers
-- `conversation_memory.py` - session memory and context utilities for the chatbot
+- `conversation_memory.py` - session memory for the chatbot
 - `templates/index.html` - browser UI and frontend JavaScript
 - `laptop_specs_enhanced.csv` - primary fallback dataset used by the app
 - `laptop_specs.csv` - alternate/older laptop dataset
-- `laptop_code.py` - earlier prototype/alternate implementation
 
 ## Requirements
 
@@ -48,6 +51,7 @@ If the TechSpecs API fails or hits its limit, the app falls back to the local da
   - `requests`
   - `pandas`
   - `fuzzywuzzy`
+  - `python-dotenv`
 
 Optional but useful:
 
@@ -65,12 +69,17 @@ python -m venv .venv
 2. Install dependencies:
 
 ```bash
-pip install flask requests pandas fuzzywuzzy
+pip install flask requests pandas fuzzywuzzy python-dotenv
 ```
 
-3. Update API credentials in `app.py` if needed.
+3. Add API credentials to `.env` if needed.
 
-   The current code reads the TechSpecs and Groq credentials directly from constants in `app.py`, so make sure they are valid before running the app.
+   Supported variables:
+   - `GROQ_API_KEY`
+   - `TECHSPECS_API_KEY`
+   - `TECHSPECS_API_ID`
+   - `TECHSPECS_BASE_URL`
+   - `LAPTOP_CSV_PATH`
 
 4. Start the Flask app:
 
