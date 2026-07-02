@@ -110,35 +110,35 @@ def get_fallback_response(user_message, response_data):
     message_lower = user_message.lower()
 
     if intent == "greeting":
-        return "Hey there! How can I help you find the perfect laptop?"
+        return "Hey. Tell me your budget and what you need the laptop for."
 
     if not laptop_data:
         if any(word in message_lower for word in ["gaming", "game"]):
-            return "I can help you find gaming laptops. Tell me your budget and preferred brand for the best recommendations."
+            return "Tell me your budget and brand preference, and I'll search gaming laptops."
         if any(word in message_lower for word in ["business", "work"]):
-            return "Looking for a business laptop? I can suggest professional laptops for work. What's your budget?"
+            return "Tell me your budget, travel needs, and work apps."
         if any(word in message_lower for word in ["student", "budget", "cheap"]):
-            return "Need an affordable laptop for school or basic use? I can find budget-friendly options. What's your price range?"
-        return "I can help you find laptops for gaming, business, student use, or general computing. What type of laptop are you looking for?"
+            return "Tell me your budget and school workload."
+        return "Choose a use case: gaming, work, school, or general use. Add a budget if you have one."
 
     top_laptop = laptop_data[0]
     laptop_name = f"{top_laptop['brand']} {top_laptop['model']}"
     price = top_laptop["specifications"].get("price", "Contact for price")
 
     if intent == "gaming_recommendation":
-        return f"For gaming, I'd recommend the {laptop_name} ({price}). It's designed for gaming performance. Would you like to see more gaming options?"
+        return f"For gaming, start with the {laptop_name} ({price}). It has gaming-focused specs. Want more options?"
 
     if intent == "handheld_recommendation":
-        return f"For portable gaming, check out the {laptop_name} ({price}). Perfect for gaming on the go."
+        return f"For portable gaming, check the {laptop_name} ({price}). It fits travel and handheld play."
 
     if intent == "business_recommendation":
-        return f"For business use, the {laptop_name} ({price}) is a solid choice for professional work. Want to see more business laptops?"
+        return f"For business use, start with the {laptop_name} ({price}). It fits work tasks. Want more business models?"
 
     if intent == "student_recommendation":
         return f"For students, the {laptop_name} ({price}) offers good value for everyday computing tasks."
 
     if intent == "specific_search":
         results_count = len(laptop_data)
-        return f"I found {results_count} match{'es' if results_count != 1 else ''} for '{user_message}'. The {laptop_name} ({price}) looks promising."
+        return f"I found {results_count} match{'es' if results_count != 1 else ''} for '{user_message}'. Start with the {laptop_name} ({price})."
 
-    return f"Based on your query, I'd suggest the {laptop_name} ({price}). What specific features are you looking for?"
+    return f"Start with the {laptop_name} ({price}). Which features matter most?"

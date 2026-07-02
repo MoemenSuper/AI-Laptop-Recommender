@@ -28,7 +28,7 @@ conversation_memory = ConversationMemory(
 )
 
 if groq_client.configured:
-    print("Groq AI configured successfully.")
+    print("Groq AI configured.")
 else:
     print("Groq API key not configured.")
 
@@ -95,7 +95,7 @@ def recommend():
         return jsonify({"success": True, "recommendations": recommendations})
     except Exception as error:
         print(f"Recommendation error: {error}")
-        return jsonify({"success": False, "error": "Failed to get recommendations"})
+        return jsonify({"success": False, "error": "Recommendation request failed"})
 
 
 @app.route("/search", methods=["POST"])
@@ -129,7 +129,7 @@ def reset_api():
 
     return jsonify({
         "success": True,
-        "message": "API limit flag reset successfully",
+        "message": "API limit flag reset",
         "current_mode": status["current_mode"],
     })
 
@@ -146,7 +146,7 @@ def memory_stats():
 def clear_memory():
     try:
         conversation_memory.clear_all_sessions()
-        return jsonify({"success": True, "message": "All conversation memory cleared successfully"})
+        return jsonify({"success": True, "message": "Conversation memory cleared"})
     except Exception as error:
         return jsonify({"success": False, "error": str(error)})
 
@@ -163,7 +163,7 @@ def chat():
         if not groq_client.configured:
             return jsonify({
                 "success": False,
-                "error": "Groq AI not configured. Please check your API key.",
+                "error": "Groq key missing. Add GROQ_API_KEY to .env.",
             })
 
         session_id = conversation_memory.get_session_id(request)
@@ -199,7 +199,7 @@ def chat():
         print(f"Chat error: {error}")
         return jsonify({
             "success": False,
-            "error": "Sorry, I had trouble processing that. Could you try rephrasing?",
+            "error": "I could not process that message. Rephrase it.",
         })
 
 

@@ -3,13 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laptop AI Recommender</title>
+    <title>Laptop Recommender</title>
     <script src="controle-et-animation.js" defer></script>
-    <!-- Integration Piece 1 - Custom matching orange/dark background styles -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Integration Piece 2 - Background element, poster set to orange cosmic nebula, orbs changed to warm dark orange colors instead of blue/purple -->
     <div id="animated-bg">
         <canvas id="space-canvas"></canvas>
         <div class="ab-overlay"></div>
@@ -38,14 +36,14 @@
                 <span class="status-dot status-api" id="statusDot"></span>
                 <span id="statusText">API Mode</span>
             </div>
-            <h1>Laptop AI Recommender</h1>
-            <p>Find your perfect laptop with AI-powered recommendations</p>
+            <h1>Laptop Recommender</h1>
+            <p>Compare laptops by budget, use case, and brand.</p>
         </div>
         
         <div class="main-content">
             <!-- Recommendation Form -->
             <div class="recommendation-form">
-                <h2>Get AI Recommendations</h2>
+                <h2>Get Recommendations</h2>
                 <form id="recommendForm">
                     <div class="form-row">
                         <div class="form-group">
@@ -83,7 +81,7 @@
                             <option value="System76">System76</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn" id="find-button">Get AI Recommendations</button>
+                    <button type="submit" class="btn" id="find-button">Get Recommendations</button>
                 </form>
             </div>
             
@@ -98,7 +96,7 @@
             
             <!-- Loading -->
             <div id="loading" class="loading" style="display: none;">
-                <p>Searching for the best laptops for you...</p>
+                <p>Searching laptops...</p>
             </div>
             
             <!-- Results -->
@@ -129,7 +127,7 @@
         </div>
         <div class="chatbot-messages" id="chatbotMessages">
             <div class="message bot">
-                Hi! I'm your laptop recommendation assistant. I can help you find the perfect laptop based on your needs. What are you looking for?
+                Hi. Tell me your budget and what you need the laptop for.
             </div>
         </div>
         <div class="typing-indicator" id="typingIndicator">

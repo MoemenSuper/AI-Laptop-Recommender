@@ -25,19 +25,19 @@ document.getElementById('recommendForm').addEventListener('submit', function(e) 
                 const result = await response.json();
                 
                 if (result.success) {
-                    displayResults(result.recommendations, 'AI Recommendations');
+                    displayResults(result.recommendations, 'Recommendations');
                 } else {
-                    showError(result.error || 'Failed to get recommendations');
+                    showError(result.error || 'Recommendation request failed');
                 }
             } catch (error) {
-                showError('Network error. Please try again.');
+                showError('Network request failed.');
             }
         }
         
         async function searchLaptops() {
             const query = document.getElementById('searchQuery').value.trim();
             if (!query) {
-                showError('Please enter a search query');
+                showError('Enter a search query');
                 return;
             }
             
@@ -60,7 +60,7 @@ document.getElementById('recommendForm').addEventListener('submit', function(e) 
                     showError(result.error || 'Search failed');
                 }
             } catch (error) {
-                showError('Network error. Please try again.');
+                showError('Network request failed.');
             }
         }
         
@@ -72,7 +72,7 @@ document.getElementById('recommendForm').addEventListener('submit', function(e) 
             const grid = document.getElementById('laptopGrid');
             
             if (laptops.length === 0) {
-                grid.innerHTML = '<p>No laptops found. Try different search criteria.</p>';
+                grid.innerHTML = '<p>No laptops found. Change the search terms.</p>';
             } else {
                 grid.innerHTML = laptops.map(laptop => createLaptopCard(laptop)).join('');
             }
@@ -111,7 +111,7 @@ document.getElementById('recommendForm').addEventListener('submit', function(e) 
                             ${Object.keys(processor).length > 0 ? `<p><strong>Processor:</strong> ${Object.values(processor).join(', ')}</p>` : ''}
                             ${Object.keys(memory).length > 0 ? `<p><strong>Memory:</strong> ${Object.values(memory).join(', ')}</p>` : ''}
                             ${Object.keys(graphics).length > 0 ? `<p><strong>Graphics:</strong> ${Object.values(graphics).join(', ')}</p>` : ''}
-                            ${!Object.keys(processor).length && !Object.keys(memory).length && !Object.keys(graphics).length && !hasStructuredSpecs ? '<p><em>Detailed specifications not available with current API plan</em></p>' : ''}
+                            ${!Object.keys(processor).length && !Object.keys(memory).length && !Object.keys(graphics).length && !hasStructuredSpecs ? '<p><em>This API plan does not include full specs.</em></p>' : ''}
                         `}
                     </div>
                 </div>
@@ -214,11 +214,11 @@ document.getElementById('recommendForm').addEventListener('submit', function(e) 
                 if (result.success) {
                     addMessage(result.response, 'bot');
                 } else {
-                    addMessage(result.error || 'Sorry, I encountered an error. Please try again.', 'bot');
+                    addMessage(result.error || 'Chat request failed.', 'bot');
                 }
             } catch (error) {
                 hideTyping();
-                addMessage('Sorry, I\'m having trouble connecting. Please try again later.', 'bot');
+                addMessage('Chat connection failed.', 'bot');
             }
         }
         
@@ -314,7 +314,7 @@ document.getElementById('recommendForm').addEventListener('submit', function(e) 
                 const result = await response.json();
                 
                 if (result.success) {
-                    console.log('API limit reset successfully');
+                    console.log('API limit reset');
                     checkApiStatus(); // Update status immediately
                 }
             } catch (error) {
@@ -328,5 +328,3 @@ document.getElementById('recommendForm').addEventListener('submit', function(e) 
                 resetApiLimit();
             }
         });
-    
-    

@@ -67,7 +67,7 @@ class LaptopCatalog:
                 return None
 
             data = pd.read_csv(self.csv_file_path)
-            print(f"CSV data loaded successfully. {len(data)} laptops available.")
+            print(f"CSV data loaded. {len(data)} laptops available.")
             return data
         except Exception as error:
             print(f"Error loading CSV: {error}")

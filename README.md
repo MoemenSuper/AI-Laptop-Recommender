@@ -1,14 +1,14 @@
-# AI Laptop Recommender
+# Laptop Recommender
 
-Flask app that helps users find laptops through a web dashboard, CSV fallback search, and a Groq-powered chat assistant.
+Flask app for laptop search, recommendations, and laptop buying questions.
 
-## What It Does
+## App Job
 
 - Shows an intro video, then opens the laptop recommender dashboard.
 - Recommends laptops by use case, budget, and brand.
 - Searches a local CSV dataset when live TechSpecs data is unavailable.
-- Answers laptop questions through a chat assistant.
-- Keeps short conversation memory so follow-up questions have context.
+- Answers laptop questions with Groq.
+- Keeps recent chat messages for follow-up questions.
 
 ## Student-Friendly Project Map
 
@@ -40,7 +40,7 @@ Data files:
 - `data/laptop_specs_enhanced.csv` - main fallback laptop dataset.
 - `data/laptop_specs.csv` - older/alternate laptop dataset.
 
-## How The App Flows
+## Runtime Flow
 
 1. `run.py` starts Flask from `backend/app.py`.
 2. `/` serves `frontend/intro/mainpage.html`.
@@ -51,10 +51,10 @@ Data files:
 
 ## Requirements
 
-- Python 3.10+ recommended
+- Python 3.10+
 - Python packages listed in `requirements.txt`
-- Optional Groq API key for chatbot replies
-- Optional TechSpecs credentials for live product search
+- Groq API key for chatbot replies
+- TechSpecs credentials for live product search
 
 ## Setup
 

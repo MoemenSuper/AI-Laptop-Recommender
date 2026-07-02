@@ -17,7 +17,7 @@ class GroqClient:
         system_prompt = (
             LAPTOP_EXPERT_SYSTEM_PROMPT
             if use_expert_prompt
-            else "You are a helpful laptop consultant."
+            else "You are a laptop consultant."
         )
         return self.complete_messages([
             {"role": "system", "content": system_prompt},
