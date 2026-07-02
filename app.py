@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, send_from_directory
 import requests
 import re
 import json
@@ -595,7 +595,27 @@ def search_laptops(query, limit=5, budget=None, brand=None):
 
 @app.route('/')
 def home():
+    return send_from_directory('main-page', 'mainpage.html')
+
+@app.route('/dashboard')
+def dashboard():
     return render_template('index.html')
+
+@app.route('/mainpage.css')
+def mainpage_styles():
+    return send_from_directory('main-page', 'mainpage.css')
+
+@app.route('/assets/<path:filename>')
+def assets(filename):
+    return send_from_directory('assets', filename)
+
+@app.route('/style.css')
+def dashboard_styles():
+    return send_from_directory('templates', 'style.css')
+
+@app.route('/controle-et-animation.js')
+def dashboard_script():
+    return send_from_directory('templates', 'controle-et-animation.js')
 
 @app.route('/recommend', methods=['POST'])
 def recommend():

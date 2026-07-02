@@ -8,7 +8,7 @@
     </head>
     <body>
         <main class="page-shell">
-            <section class="video-stage" aria-label="Laptop intro video">
+            <section id="video-stage" class="video-stage" aria-label="Laptop intro video">
                 <video
                     id="laptop-video"
                     class="laptop-video"
@@ -25,24 +25,79 @@
                     aria-label="Play laptop video"
                 ></button>
             </section>
+
+            <section
+                id="dashboard-reveal"
+                class="dashboard-reveal"
+                aria-label="Laptop recommender dashboard"
+                aria-hidden="true"
+            >
+                <iframe
+                    id="dashboard-frame"
+                    class="dashboard-frame"
+                    title="Laptop AI Recommender dashboard"
+                    data-dashboard-src="/dashboard"
+                ></iframe>
+            </section>
         </main>
 
         <script>
+            const INTRO_FADE_SECONDS = 0.85;
+            const DASHBOARD_REVEAL_CLASS = "is-visible";
+            const VIDEO_RETIRED_CLASS = "is-retired";
+
             const video = document.getElementById("laptop-video");
             const hotspot = document.getElementById("video-hotspot");
+            const videoStage = document.getElementById("video-stage");
+            const dashboardReveal = document.getElementById("dashboard-reveal");
+            const dashboardFrame = document.getElementById("dashboard-frame");
+            let hasStartedIntro = false;
+            let hasRevealedDashboard = false;
+
+            // Load the existing dashboard behind the hidden reveal layer.
+            // Flask uses /dashboard; directly opening this HTML file uses the source file path.
+            dashboardFrame.src =
+                window.location.protocol === "file:"
+                    ? "../templates/index.html"
+                    : dashboardFrame.dataset.dashboardSrc;
+
             video.playbackRate = 2;
+
             hotspot.addEventListener("click", async () => {
+                if (hasStartedIntro || hasRevealedDashboard) {
+                    return;
+                }
+
+                hasStartedIntro = true;
+
                 try {
                     hotspot.classList.add("is-hidden");
                     await video.play();
                 } catch (error) {
+                    hasStartedIntro = false;
                     hotspot.classList.remove("is-hidden");
                 }
             });
 
+            function revealDashboard() {
+                if (hasRevealedDashboard) {
+                    return;
+                }
+
+                hasRevealedDashboard = true;
+                dashboardReveal.removeAttribute("aria-hidden");
+                dashboardReveal.classList.add(DASHBOARD_REVEAL_CLASS);
+
+                // Keep the final black video frame under the dashboard during the fade,
+                // then retire the video layer so it cannot block clicks or keep doing work.
+                window.setTimeout(() => {
+                    video.pause();
+                    videoStage.classList.add(VIDEO_RETIRED_CLASS);
+                }, INTRO_FADE_SECONDS * 1000);
+            }
+
             video.addEventListener("ended", () => {
-                video.currentTime = 0;
-                hotspot.classList.remove("is-hidden");
+                revealDashboard();
             });
         </script>
     </body>

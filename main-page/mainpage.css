@@ -13,12 +13,14 @@ body {
     display: grid;
     place-items: center;
     overflow: hidden;
+    position: relative;
 }
 
 .video-stage {
     position: relative;
     width: min(100vw, 1280px);
     aspect-ratio: 16 / 9;
+    z-index: 1;
 }
 
 .laptop-video {
@@ -42,4 +44,37 @@ body {
 
 .video-hotspot.is-hidden {
     display: none;
+}
+
+.video-stage.is-retired {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+}
+
+.dashboard-reveal {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    background: #000;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(14px) scale(0.992);
+    transition:
+        opacity 850ms ease,
+        transform 850ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dashboard-reveal.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+}
+
+.dashboard-frame {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: #000;
 }
