@@ -1,14 +1,22 @@
 from flask import Flask, jsonify, render_template, request, send_from_directory
 
-from ai_training_system import create_enhanced_prompt
-from chat_intent import analyze_user_intent_and_get_data, get_fallback_response
-from config import CSV_FILE_PATH, GROQ_API_KEY, GROQ_BASE_URL, TECHSPECS_CONFIG
-from conversation_memory import ConversationMemory
-from groq_client import GroqClient
-from laptop_catalog import LaptopCatalog
+from .ai_training_system import create_enhanced_prompt
+from .chat_intent import analyze_user_intent_and_get_data, get_fallback_response
+from .config import (
+    ASSETS_FOLDER,
+    CSV_FILE_PATH,
+    DASHBOARD_FOLDER,
+    GROQ_API_KEY,
+    GROQ_BASE_URL,
+    INTRO_FOLDER,
+    TECHSPECS_CONFIG,
+)
+from .conversation_memory import ConversationMemory
+from .groq_client import GroqClient
+from .laptop_catalog import LaptopCatalog
 
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder=str(DASHBOARD_FOLDER))
 
 catalog = LaptopCatalog(CSV_FILE_PATH, TECHSPECS_CONFIG)
 groq_client = GroqClient(GROQ_API_KEY, GROQ_BASE_URL)
@@ -45,7 +53,7 @@ def query_for_usage(usage):
 
 @app.route("/")
 def home():
-    return send_from_directory("main-page", "mainpage.html")
+    return send_from_directory(INTRO_FOLDER, "mainpage.html")
 
 
 @app.route("/dashboard")
@@ -55,22 +63,22 @@ def dashboard():
 
 @app.route("/mainpage.css")
 def mainpage_styles():
-    return send_from_directory("main-page", "mainpage.css")
+    return send_from_directory(INTRO_FOLDER, "mainpage.css")
 
 
 @app.route("/assets/<path:filename>")
 def assets(filename):
-    return send_from_directory("assets", filename)
+    return send_from_directory(ASSETS_FOLDER, filename)
 
 
 @app.route("/style.css")
 def dashboard_styles():
-    return send_from_directory("templates", "style.css")
+    return send_from_directory(DASHBOARD_FOLDER, "style.css")
 
 
 @app.route("/controle-et-animation.js")
 def dashboard_script():
-    return send_from_directory("templates", "controle-et-animation.js")
+    return send_from_directory(DASHBOARD_FOLDER, "controle-et-animation.js")
 
 
 @app.route("/recommend", methods=["POST"])

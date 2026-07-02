@@ -1,61 +1,60 @@
 # AI Laptop Recommender
 
-Flask-based laptop recommendation app that combines:
-
-- a web UI for laptop search and recommendations
-- TechSpecs API lookups for live product data
-- a CSV fallback dataset when the API is unavailable or rate-limited
-- a Groq-powered chat assistant for conversational laptop advice
-- lightweight conversation memory for context-aware replies
+Flask app that helps users find laptops through a web dashboard, CSV fallback search, and a Groq-powered chat assistant.
 
 ## What It Does
 
-The app helps users find laptops by:
+- Shows an intro video, then opens the laptop recommender dashboard.
+- Recommends laptops by use case, budget, and brand.
+- Searches a local CSV dataset when live TechSpecs data is unavailable.
+- Answers laptop questions through a chat assistant.
+- Keeps short conversation memory so follow-up questions have context.
 
-- use case, such as gaming, business, or student work
-- direct keyword search
-- brand preference
-- budget filtering
+## Student-Friendly Project Map
 
-If the TechSpecs API fails or hits its limit, the app falls back to the local dataset in `laptop_specs_enhanced.csv` so the interface still returns results.
+Start here:
 
-## Features
+- `run.py` - starts the Flask app.
+- `backend/app.py` - connects browser routes to the backend modules.
+- `frontend/intro/mainpage.html` - first page users see.
+- `frontend/dashboard/index.html` - main laptop recommender UI.
 
-- Laptop recommendation form
-- Search endpoint for specific laptop queries
-- Chat assistant for natural-language questions
-- API status indicator in the frontend
-- CSV fallback mode with fuzzy search
-- Conversation memory with session cleanup and limits
-- Prompt-tuned AI responses for laptop buying guidance
+Backend code:
 
-## Project Structure
+- `backend/config.py` - reads `.env` values and points to project folders.
+- `backend/laptop_catalog.py` - searches TechSpecs first, then the CSV dataset.
+- `backend/chat_intent.py` - understands what the user is asking the chatbot.
+- `backend/groq_client.py` - sends prompts to Groq.
+- `backend/ai_training_system.py` - builds laptop expert prompts.
+- `backend/conversation_memory.py` - stores recent chat messages.
 
-- `app.py` - Flask routes and application orchestration
-- `config.py` - environment-backed runtime configuration
-- `laptop_catalog.py` - TechSpecs search plus CSV fallback search
-- `chat_intent.py` - chatbot intent classification and rule-based fallback replies
-- `groq_client.py` - Groq chat completion adapter
-- `ai_training_system.py` - laptop-specific system prompts and prompt-building helpers
-- `conversation_memory.py` - session memory for the chatbot
-- `templates/index.html` - browser UI and frontend JavaScript
-- `laptop_specs_enhanced.csv` - primary fallback dataset used by the app
-- `laptop_specs.csv` - alternate/older laptop dataset
+Frontend files:
+
+- `frontend/intro/` - intro video page.
+- `frontend/dashboard/` - dashboard HTML, CSS, and JavaScript.
+- `frontend/login/` - saved login page files.
+- `frontend/assets/` - video and media assets.
+
+Data files:
+
+- `data/laptop_specs_enhanced.csv` - main fallback laptop dataset.
+- `data/laptop_specs.csv` - older/alternate laptop dataset.
+
+## How The App Flows
+
+1. `run.py` starts Flask from `backend/app.py`.
+2. `/` serves `frontend/intro/mainpage.html`.
+3. The intro page reveals `/dashboard`.
+4. Dashboard JavaScript calls `/recommend`, `/search`, `/api-status`, and `/chat`.
+5. `backend/laptop_catalog.py` returns laptop results.
+6. `backend/chat_intent.py` and `backend/groq_client.py` handle chat replies.
 
 ## Requirements
 
 - Python 3.10+ recommended
-- Internet access for the TechSpecs and Groq API integrations
-- Python packages:
-  - `flask`
-  - `requests`
-  - `pandas`
-  - `fuzzywuzzy`
-  - `python-dotenv`
-
-Optional but useful:
-
-- `python-Levenshtein` for faster fuzzy matching
+- Python packages listed in `requirements.txt`
+- Optional Groq API key for chatbot replies
+- Optional TechSpecs credentials for live product search
 
 ## Setup
 
@@ -69,62 +68,46 @@ python -m venv .venv
 2. Install dependencies:
 
 ```bash
-pip install flask requests pandas fuzzywuzzy python-dotenv
+pip install -r requirements.txt
 ```
 
-3. Add API credentials to `.env` if needed.
+3. Copy `.env.example` into `.env`, then fill in any keys you want to use.
 
-   Supported variables:
-   - `GROQ_API_KEY`
-   - `TECHSPECS_API_KEY`
-   - `TECHSPECS_API_ID`
-   - `TECHSPECS_BASE_URL`
-   - `LAPTOP_CSV_PATH`
+```text
+GROQ_API_KEY=
+TECHSPECS_API_KEY=
+TECHSPECS_API_ID=
+TECHSPECS_BASE_URL=https://api.techspecs.io/v5
+LAPTOP_CSV_PATH=
+```
 
-4. Start the Flask app:
+4. Start the app:
 
 ```bash
-python app.py
+python run.py
 ```
 
-5. Open the app in your browser:
+5. Open:
 
 ```text
 http://127.0.0.1:8080
 ```
 
-## How It Works
-
-1. The frontend sends requests to the Flask backend.
-2. For search and recommendations, the backend tries TechSpecs first.
-3. If TechSpecs returns no data or the API limit is reached, the app falls back to `laptop_specs_enhanced.csv`.
-4. For chat, the app builds a laptop-focused prompt and sends it to Groq.
-5. Conversation memory keeps recent user and assistant messages so follow-up questions stay in context.
-
 ## API Endpoints
 
-- `GET /` - main web UI
-- `POST /recommend` - get recommendations by usage, budget, and brand
-- `POST /search` - search laptops by keyword
-- `GET /api-status` - check whether the app is using API mode or CSV fallback
-- `POST /reset-api` - reset the API fallback flag
-- `GET /memory-stats` - view conversation memory statistics
-- `POST /clear-memory` - clear stored conversation sessions
-- `POST /chat` - send a message to the chatbot
+- `GET /` - intro page
+- `GET /dashboard` - recommender dashboard
+- `POST /recommend` - recommendations by usage, budget, and brand
+- `POST /search` - laptop search by keyword
+- `GET /api-status` - current TechSpecs/CSV fallback status
+- `POST /reset-api` - retry TechSpecs mode when credentials exist
+- `GET /memory-stats` - chat memory stats
+- `POST /clear-memory` - clear chat memory
+- `POST /chat` - chatbot message endpoint
 
-## Usage Notes
+## Notes
 
-- Keep `laptop_specs_enhanced.csv` in the project root so the fallback loader can find it.
-- The chatbot depends on a valid Groq API key.
-- The recommendation and search routes can still function in CSV fallback mode even if the TechSpecs API is unavailable.
-- For production use, move API keys out of source code and into environment variables.
-
-## Troubleshooting
-
-- If the app starts but returns no laptop results, check that the CSV files are present in the repository root.
-- If chat requests fail, verify the Groq API key and network access.
-- If the API mode keeps switching to CSV fallback, the TechSpecs quota may have been reached or the API may be unavailable.
-
-## License
-
-No license file is currently included. Add one if you want to publish or share the project publicly.
+- The app works without TechSpecs credentials by using `data/laptop_specs_enhanced.csv`.
+- The chatbot needs `GROQ_API_KEY`.
+- Keep secrets in `.env`; do not commit real API keys.
+- If you want to learn the backend first, read `backend/app.py`, then `backend/laptop_catalog.py`.

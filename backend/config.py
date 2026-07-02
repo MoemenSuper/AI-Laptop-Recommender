@@ -1,10 +1,18 @@
 import os
 from dataclasses import dataclass
+from pathlib import Path
 
 from dotenv import load_dotenv
 
 
 load_dotenv()
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+DATA_FOLDER = PROJECT_ROOT / "data"
+FRONTEND_FOLDER = PROJECT_ROOT / "frontend"
+INTRO_FOLDER = FRONTEND_FOLDER / "intro"
+DASHBOARD_FOLDER = FRONTEND_FOLDER / "dashboard"
+ASSETS_FOLDER = FRONTEND_FOLDER / "assets"
 
 
 @dataclass(frozen=True)
@@ -38,4 +46,4 @@ GROQ_BASE_URL = os.getenv(
     "https://api.groq.com/openai/v1/chat/completions",
 )
 
-CSV_FILE_PATH = os.getenv("LAPTOP_CSV_PATH", "laptop_specs_enhanced.csv")
+CSV_FILE_PATH = os.getenv("LAPTOP_CSV_PATH") or str(DATA_FOLDER / "laptop_specs_enhanced.csv")

@@ -1,6 +1,6 @@
 import requests
 
-from ai_training_system import LAPTOP_EXPERT_SYSTEM_PROMPT
+from .ai_training_system import LAPTOP_EXPERT_SYSTEM_PROMPT
 
 
 class GroqClient:

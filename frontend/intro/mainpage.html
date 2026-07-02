@@ -58,7 +58,7 @@
             // Flask uses /dashboard; directly opening this HTML file uses the source file path.
             dashboardFrame.src =
                 window.location.protocol === "file:"
-                    ? "../templates/index.html"
+                    ? "../dashboard/index.html"
                     : dashboardFrame.dataset.dashboardSrc;
 
             video.playbackRate = 2;

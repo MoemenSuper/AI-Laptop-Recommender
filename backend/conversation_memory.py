@@ -56,7 +56,7 @@ class ConversationMemory:
 
         messages = []
         if include_system_prompt:
-            from ai_training_system import LAPTOP_EXPERT_SYSTEM_PROMPT
+            from .ai_training_system import LAPTOP_EXPERT_SYSTEM_PROMPT
 
             messages.append({
                 "role": "system",
